@@ -5,17 +5,14 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-    NavLink,
-    Container,
-    Row,
-    Col,
-    Button
+    NavItem
 } from 'reactstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './css/App.css'
 
-import EstateList from './components/EstateList'
+import Routes from './Routes'
 
 class App extends Component {
     constructor(props) {
@@ -35,24 +32,24 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Navbar color="inverse" light expand="md">
-            <NavbarBrand href="/">DemoUI</NavbarBrand>
+      <div className="App container">
+        <Navbar color="light" light expand="md">
+            <LinkContainer to="/">
+                <NavbarBrand>DemoUI</NavbarBrand>
+            </LinkContainer>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                    <NavItem>
-                        <NavLink href="/persons">People</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/places">Places</NavLink>
-                    </NavItem>
+                    <LinkContainer to="/persons">
+                        <NavItem className="btn btn-light" role="button">People</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to="/places">
+                        <NavItem className="btn btn-light" role="button">Places</NavItem>
+                    </LinkContainer>
                 </Nav>
             </Collapse>
         </Navbar>
-        <Container>
-            <EstateList />
-        </Container>
+        <Routes />
       </div>
     );
   }

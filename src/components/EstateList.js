@@ -20,7 +20,7 @@ class EstateList extends Component {
       <ul>
         {this.props.estates.map((estate) => (
           <li key={estate.id}>
-            {estate.name}
+            {estate.name}, {estate.location}
           </li>
         ))}
       </ul>
