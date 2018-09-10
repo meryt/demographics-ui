@@ -9,7 +9,7 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import Estate from '../components/Estate'
-import EstateList from '../components/EstateList'
+import PlaceList from '../components/PlaceList'
 
 export default class Places extends Component {
     constructor(props) {
@@ -50,7 +50,10 @@ export default class Places extends Component {
                 <p>places go here.</p>
 
                 <Switch>
-                    <Route exact path="/places/estates" component={EstateList} />
+                    <Route exact path="/places/estates" render={ (props) => <PlaceList {...props} type="estates" /> } />
+                    <Route exact path="/places/towns" render={ (props) => <PlaceList {...props} type="towns" /> } />
+                    <Route exact path="/places/parishes" render={ (props) => <PlaceList {...props} type="parishes" /> } />
+
                     <Route path={`/places/estates/:estateId`} component={Estate} />
                 </Switch>
             </div>

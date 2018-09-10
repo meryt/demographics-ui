@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
-import { estate, estateHasErrored, estateIsLoading,
-         estates, estatesHasErrored, estatesIsLoading } from './estates'
+import { estate, estateHasErrored, estateIsLoading } from './estates'
+import { places, placesHasErrored, placesIsLoading } from './places'
 
 export default combineReducers({
     estate,
     estateHasErrored,
     estateIsLoading,
-    estates,
-    estatesHasErrored,
-    estatesIsLoading
+    places,
+    placesHasErrored,
+    placesIsLoading
 })
