@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { estatesFetchData } from '../actions/estates'
 
 class EstateList extends Component {
@@ -20,7 +21,7 @@ class EstateList extends Component {
       <ul>
         {this.props.estates.map((estate) => (
           <li key={estate.id}>
-            {estate.name}, {estate.location}
+            <Link to={`/places/estates/${estate.id}`}>{estate.name}, {estate.location}</Link>
           </li>
         ))}
       </ul>

@@ -4,7 +4,7 @@ import { estateFetchData } from '../actions/estate'
 
 class Estate extends Component {
   componentDidMount() {
-    this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}`)
+      this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}`)
   }
 
   render() {
