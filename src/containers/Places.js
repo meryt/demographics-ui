@@ -9,7 +9,11 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import Estate from '../components/Estate'
+import Parish from '../components/Parish'
 import PlaceList from '../components/PlaceList'
+import Town from '../components/Town'
+
+import '../css/Places.css'
 
 export default class Places extends Component {
     constructor(props) {
@@ -29,8 +33,8 @@ export default class Places extends Component {
 
     render() {
         return (
-            <div className="places">
-                <Navbar color="light" light expand="md">
+            <div className="main-content places">
+                <Navbar className="sub-nav" expand="md">
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <LinkContainer to="/places/parishes">
@@ -46,15 +50,14 @@ export default class Places extends Component {
                     </Collapse>
                 </Navbar>
 
-                <h1>Places</h1>
-                <p>places go here.</p>
-
                 <Switch>
                     <Route exact path="/places/estates" render={ (props) => <PlaceList {...props} type="estates" /> } />
                     <Route exact path="/places/towns" render={ (props) => <PlaceList {...props} type="towns" /> } />
                     <Route exact path="/places/parishes" render={ (props) => <PlaceList {...props} type="parishes" /> } />
 
+                    <Route path={`/places/parishes/:parishId`} component={Parish} />
                     <Route path={`/places/estates/:estateId`} component={Estate} />
+                    <Route path={`/places/towns/:townId`} component={Town} />
                 </Switch>
             </div>
         )

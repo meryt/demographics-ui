@@ -32,25 +32,39 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App container">
-        <Navbar color="light" light expand="md">
-            <LinkContainer to="/">
-                <NavbarBrand>DemoUI</NavbarBrand>
-            </LinkContainer>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                    <LinkContainer to="/persons">
-                        <NavItem className="btn btn-light" role="button">People</NavItem>
+        <div>
+            <div className="above-app" />
+            <div className="App container">
+                <Navbar className="top-nav" expand="md">
+                        <Nav className="ml-auto" navbar>
+                            <NavItem className="btn people-btn" role="button"></NavItem>
+                            <NavItem className="btn places-btn" role="button"></NavItem>
+                            <NavItem className="btn titles-btn" role="button"></NavItem>
+                        </Nav>
+                </Navbar>
+
+                <Navbar className="main-nav" light expand="md">
+                    <LinkContainer to="/">
+                        <NavbarBrand>Demographics</NavbarBrand>
                     </LinkContainer>
-                    <LinkContainer to="/places">
-                        <NavItem className="btn btn-light" role="button">Places</NavItem>
-                    </LinkContainer>
-                </Nav>
-            </Collapse>
-        </Navbar>
-        <Routes />
-      </div>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <LinkContainer to="/persons">
+                                <NavItem className="btn people-btn" role="button">People</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="/places">
+                                <NavItem className="btn places-btn" role="button">Places</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="/titles">
+                                <NavItem className="btn titles-btn" role="button">Titles</NavItem>
+                            </LinkContainer>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
+                <Routes />
+            </div>
+        </div>
     );
   }
 }

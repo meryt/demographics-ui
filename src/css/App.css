@@ -1,13 +1,154 @@
-
 .App {
-    margin-top: 15px;
+    font-family: sans-serif;
+    margin-top: 0;
 }
 
 .App .navbar-brand {
+    padding-top: 2em;
+    color: #fff;
     font-weight: bold;
+    font-family: 'Arima Madurai', 'Volkhov', serif;
+    font-size: 30pt;
+    padding-left: 0.3em;
+    -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: #00000060;
+}
+
+.top-nav {
+    padding: 0;
+    background-color: #c33e00;
+    background-image: url('granite-dk.png');
+    background-position: 0 -195px;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    border-left: solid 1px black;
+}
+
+.top-nav .btn {
+    width: 150px;
+    border-radius: 0;
+    border: 0px solid transparent;
+    height: 15px;
+    border-right: solid 1px black;
+}
+
+.top-nav .people-btn {
+    background-color: #df8b00;
+    background-position: 0 -212px;
+    border-left: solid 1px black;
+    border-radius: 0;
+}
+
+.main-nav li.people-btn {
+    border-left: solid 1px black;
+    border-radius: 0;
+}
+
+.people-btn {
+    background-color: #ffab00;
+    background-image: url('granite-dk.png');
+    background-position: 0 -300px;
+    background-origin: content-box;
+}
+
+.top-nav .places-btn {
+    background-color: #44a498;
+    background-position: -150px -212px;
+}
+
+.places-btn {
+    background-color: #64c4b8;
+    background-image: url('granite-dk.png');
+    background-position: -150px -300px;
+    background-origin: content-box;
+}
+
+.top-nav .titles-btn {
+    background-color: #df7000;
+    background-position: -300px -212px;
+}
+
+.titles-btn {
+    background-color: #ff9002;
+    background-image: url('granite-dk.png');
+    background-position: -300px -300px;
+    background-origin: content-box;
+}
+
+.main-nav {
+    background-color: #e35e01;
+    padding: 0;
+    background-image: url('granite-dk.png');
+    background-position: 0 -210px;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+}
+
+.main-nav .btn {
+    border-radius: 0;
+    width: 150px;
+    border: 0px solid transparent;
+    padding-top: 2em;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Arima Madurai', 'Volkhov', serif;
+    font-size: 30pt;
+    border-right: solid 1px black;
+    -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: #00000060;
+}
+
+.sub-nav .btn {
+    border-radius: 0;
+    border: 0px solid transparent;
+    color: #fff;
+    width: 100px;
+}
+
+.above-app {
+    position: absolute;
+    z-index: -10;
+    width: 100%;
+    height: 15px;
+    top: 0;
+    left: 0;
+    background-color: #9e9e80;
 }
 
 .places .navbar {
     padding-top: 0;
-    padding-bottom: 0
+    padding-bottom: 0;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+}
+
+div.main-content {
+    font-size: smaller;
+}
+
+div.inner-content {
+    padding: 20px;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    .top-nav {
+        display: none;
+    }
+
+    .main-nav .btn {
+        width: auto;
+        padding-top: 0.2em;
+    }
+
+    .above-app {
+        display: none;
+    }
+}
+
+.personAncestors td {
+    vertical-align: middle;
 }
