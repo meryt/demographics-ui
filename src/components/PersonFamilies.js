@@ -3,26 +3,11 @@ import {
     Table
 } from 'reactstrap'
 import { Link, Redirect } from 'react-router-dom'
-import moment from 'moment'
+import { friendlyAge, friendlyDate } from '../utils/dates'
 
 const NUM_CHILD_COLS = 4
 
 class PersonFamilies extends Component {
-
-    formatAge(age) {
-        if (age == null) {
-            return null
-        }
-
-        return age.split(',')[0]
-    }
-
-    formatDate(date) {
-        if (date == null) {
-            return null
-        }
-        return moment(date).format('MMMM Do, YYYY')
-    }
 
     marriageDateOrSpouse(family, pos) {
         if (family == null || family.weddingDate == null) {
@@ -30,23 +15,24 @@ class PersonFamilies extends Component {
         }
 
         let age = this.props.person.gender === 'MALE'
-            ? this.formatAge(family.husbandAgeAtMarriage)
-            : this.formatAge(family.wifeAgeAtMarriage)
+            ? friendlyAge(family.husbandAgeAtMarriage)
+            : friendlyAge(family.wifeAgeAtMarriage)
         let spouseAge = this.props.person.gender === 'FEMALE'
-            ? this.formatAge(family.husbandAgeAtMarriage) :
-            this.formatAge(family.wifeAgeAtMarriage)
+            ? friendlyAge(family.husbandAgeAtMarriage) :
+            friendlyAge(family.wifeAgeAtMarriage)
 
         let isMale = this.props.person.gender === 'MALE'
 
         if ((pos === 'left' && isMale) || (pos === 'right' && !isMale)) {
-            return <p>Married {this.formatDate(family.weddingDate)}, aged {age}</p>
+            return <p>Married {friendlyDate(family.weddingDate)}, aged {age}</p>
         } else {
             return (
                 <div>
                     <h5><Link to={`/persons/${family.spouse.id}/families`}>{family.spouse.firstName} {family.spouse.lastName}</Link></h5>
-                    <p>Born: {this.formatDate(family.spouse.birthDate)}</p>
+                    <p>Born: {friendlyDate(family.spouse.birthDate)}</p>
+                    <p>Age: { family.spouse.age == null ? <i>Deceased</i> : friendlyAge(family.spouse.age) }</p>
                     <p>Married: aged {spouseAge}</p>
-                    <p>Died: {this.formatDate(family.spouse.deathDate)}, aged {this.formatAge(family.spouse.ageAtDeath)}</p>
+                    <p>Died: {friendlyDate(family.spouse.deathDate)}, aged {friendlyAge(family.spouse.ageAtDeath)}</p>
                 </div>
             )
         }
@@ -104,8 +90,9 @@ class PersonFamilies extends Component {
         return <td key={`child-${child.id}`}>
             <h5><Link to={`/persons/${child.id}/families`}>{child.firstName} {child.lastName}</Link></h5>
 
-            <p>Born: {this.formatDate(child.birthDate)}</p>
-            <p>Died: {this.formatDate(child.deathDate)}, aged {this.formatAge(child.ageAtDeath)}</p>
+            <p>Born: {friendlyDate(child.birthDate)}</p>
+            <p>Age: { child.age == null ? <i>Deceased</i> : friendlyAge(child.age) }</p>
+            <p>Died: {friendlyDate(child.deathDate)}, aged {friendlyAge(child.ageAtDeath)}</p>
         </td>
     }
 
@@ -123,7 +110,7 @@ class PersonFamilies extends Component {
         }
 
         return (
-            <div className="personFamilies">
+            <div className="inner-content personFamilies">
                 {this.props.person.families.map((family) => (
                   <div key={`family-${family.id}`}>
                     <h4>Family {family.id}</h4>

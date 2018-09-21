@@ -11,8 +11,9 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { townFetchData } from '../actions/towns'
-import PlaceOwners from './PlaceOwners'
 import PlaceResidents from './PlaceResidents'
+import { placeTypeToPathType } from '../utils/places'
+import { titleCase } from '../utils/strings'
 
 class Town extends Component {
 
@@ -42,7 +43,7 @@ class Town extends Component {
 
         return (
             <tr key={`child-place-${place.id}`}>
-                <td>{ place.name }</td>
+                <td><Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i> : place.name }</Link></td>
                 <td>{ place.value }</td>
                 <td>{ this.renderPlaceOwner(place) }</td>
                 <td>{ place.totalPopulation }</td>
@@ -67,6 +68,16 @@ class Town extends Component {
         )
     }
 
+    renderParentLocationLink(place) {
+        if (place == null || place.parent == null) {
+            return null
+        }
+
+        let parent = place.parent
+
+        return <Link to={ `/places/${ placeTypeToPathType(parent.type) }/${ parent.id }` }>{parent.name}</Link>
+    }
+
     render() {
         if (this.props.hasErrored) {
             return <p>Sorry, there was an error loading the item</p>
@@ -78,23 +89,29 @@ class Town extends Component {
 
         return (
             <div>
-            <h2>{this.props.town.name}, {this.props.town.location}</h2>
+                <div className="inner-content">
+                    <h2>{this.props.town.name}</h2>
 
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th>Owner</th>
-                        <th>Residents</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    this.props.town.places != null && this.props.town.places.map(p => this.renderPlaceRow(p))
-                }
-                </tbody>
-            </Table>
+                    <p>Town, located in { this.renderParentLocationLink(this.props.town) }</p>
+
+                    <p>Population { this.props.town.totalPopulation }</p>
+
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Owner</th>
+                                <th>Residents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.props.town.places != null && this.props.town.places.map(p => this.renderPlaceRow(p))
+                        }
+                        </tbody>
+                    </Table>
+                </div>
 
             <Navbar color="light" light expand="md">
                 <Collapse isOpen={this.state.isOpen} navbar>

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { estate, estateHasErrored, estateIsLoading } from './estates'
+import { house, houseHasErrored, houseIsLoading } from './houses'
 import { parish, parishHasErrored, parishIsLoading } from './parishes'
 import { person, personHasErrored, personIsLoading } from './persons'
 import { places, placesHasErrored, placesIsLoading } from './places'
@@ -11,6 +12,9 @@ export default combineReducers({
     estate,
     estateHasErrored,
     estateIsLoading,
+    house,
+    houseHasErrored,
+    houseIsLoading,
     parish,
     parishHasErrored,
     parishIsLoading,

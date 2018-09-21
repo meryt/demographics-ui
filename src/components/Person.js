@@ -15,6 +15,10 @@ import moment from 'moment'
 import PersonFamilies from './PersonFamilies'
 import PersonAncestors from './PersonAncestors'
 import PersonDescendants from './PersonDescendants'
+import PersonHousehold from './PersonHousehold'
+
+import { formatNumber } from '../utils/strings'
+import { renderPersonTitles } from '../utils/persons'
 
 class Person extends Component {
     constructor(props) {
@@ -56,22 +60,6 @@ class Person extends Component {
       return arr.join(sep)
   }
 
-  renderTitles(person) {
-      if (person == null || person.titles == null) {
-          return null
-      }
-
-      return (
-          <p>
-            {person.titles
-                .map(t => <Link key={ `title-${t.title.id}` } to={`/titles/${t.title.id}`}>{t.title.name}</Link>)
-                .reduce((accu, elem) => {
-                    return accu === null ? [elem] : [...accu, ',', elem]
-                }, null)}
-          </p>
-      )
-  }
-
   render() {
     if (this.props.hasErrored) {
       return <p>Sorry, there was an error loading the item</p>
@@ -94,7 +82,7 @@ class Person extends Component {
       <div>
         <div className="inner-content">
             <h2>{this.props.person.firstName} {this.props.person.lastName}</h2>
-            {this.renderTitles(this.props.person)}
+            {this.props.person.titles != null && <p>{ renderPersonTitles(this.props.person) }</p> }
             <Table>
                 <tbody>
                     <tr>
@@ -111,7 +99,7 @@ class Person extends Component {
                         <th>Age</th>
                         <td>{typeof(this.props.person.age) === 'undefined' ? <span className="deceased">deceased</span> : this.props.person.age}</td>
                         <th>Capital</th>
-                        <td>{this.props.person.capital}</td>
+                        <td>{ formatNumber(this.props.person.capital) }</td>
                     </tr>
                     <tr>
                         <th>Height</th>
@@ -164,6 +152,12 @@ class Person extends Component {
                             </LinkContainer>
                         }
 
+                        {(this.props.person.household != null) &&
+                            <LinkContainer to={`/persons/${this.props.person.id}/household`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Household</NavItem>
+                            </LinkContainer>
+                        }
+
                         <LinkContainer to={`/persons/${this.props.person.id}/descendants`}>
                             <NavItem className="btn btn-light btn-sm" role="button">Descendants</NavItem>
                         </LinkContainer>
@@ -176,6 +170,7 @@ class Person extends Component {
             <Route path="/persons/:id/families" render={ (props) => <PersonFamilies {...props} id={this.props.person.id} person={this.props.person} /> } />
             <Route path="/persons/:id/ancestors" render={ (props) => <PersonAncestors {...props} id={this.props.person.id} person={this.props.person} /> } />
             <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendants {...props} id={this.props.person.id} /> } />
+            <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.person.id} person={this.props.person} /> } />
         </Switch>
       </div>
     )

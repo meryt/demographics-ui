@@ -17,3 +17,11 @@ export function enumToText(str) {
         .toLowerCase()
     return newstr[0].toUpperCase() + newstr.substr(1)
 }
+
+export function formatNumber(num) {
+    if (num == null) {
+        return null
+    }
+
+    return num.toLocaleString()
+}

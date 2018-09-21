@@ -7,6 +7,7 @@ import {
 import { titleFetchData } from '../actions/title'
 import { titleCase, enumToText } from '../utils/strings'
 import { friendlyDate } from '../utils/dates'
+import { renderPersonLink } from '../utils/persons'
 
 class Title extends Component {
 
@@ -40,12 +41,14 @@ class Title extends Component {
         }
 
         return (
-            <div>
+            <div className="inner-content">
             <h2>{title.name} {(title.extinct) && '(extinct)'}</h2>
             {(title.abeyanceCheckDate != null) && <p>(in abeyance until at least { friendlyDate(title.abeyanceCheckDate) })</p> }
             <p>Peerage: {titleCase(title.peerage)}</p>
             <p>Class: {title.socialClass}</p>
             <p>Inheritance: { enumToText(title.inheritanceStyle) }</p>
+
+            <h3>Title Holders</h3>
 
             <Table>
                 <thead>
@@ -70,7 +73,30 @@ class Title extends Component {
                 </tbody>
             </Table>
 
+            { title.heirs != null && title.heirs.length > 0 &&
+                <div>
+                <h3>Title Heirs</h3>
 
+                <Table>
+                    <thead>
+                        <th>Name</th>
+                        <th>Birth date</th>
+                        <th>Death date</th>
+                        <th>Relationship to last holder</th>
+                    </thead>
+                    <tbody>
+                    {title.heirs.map((heir) => (
+                      <tr key={`heir-${heir.id}`}>
+                        <td>{ renderPersonLink(heir) }</td>
+                        <td>{friendlyDate(heir.birthDate)}</td>
+                        <td>{friendlyDate(heir.deathDate)}</td>
+                        <td>{ heir.relationship != null ? heir.relationship.name : null }</td>
+                      </tr>
+                    ))}
+                    </tbody>
+                </Table>
+                </div>
+            }
             </div>
         )
     }

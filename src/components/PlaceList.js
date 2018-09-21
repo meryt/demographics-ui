@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { placesFetchData } from '../actions/places'
+import { titleCase } from '../utils/strings'
+import { placeTypeToPathType } from '../utils/places'
 
 class PlaceList extends Component {
   componentDidMount() {
@@ -26,13 +28,16 @@ class PlaceList extends Component {
     }
 
     return (
-      <ul>
-        {this.props.places.map((place) => (
-          <li key={place.id}>
-            <Link to={`/places/${this.props.type}/${place.id}`}>{place.name}, {place.location}</Link>
-          </li>
-        ))}
-      </ul>
+        <div className="inner-content">
+            <h2>{titleCase(this.props.type)}</h2>
+            <ul>
+                {this.props.places.map((place) => (
+                    <li key={place.id}>
+                        <Link to={`/places/${ placeTypeToPathType(place.type) }/${place.id}`}>{place.name}, {place.location}</Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
   }
 }

@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
     Collapse,
     Navbar,
     Nav,
-    NavItem
+    NavItem,
+    Table
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { estateFetchData } from '../actions/estate'
 import PlaceOwners from './PlaceOwners'
 import PlaceResidents from './PlaceResidents'
+import { placeTypeToPathType } from '../utils/places'
+import { formatNumber, titleCase } from '../utils/strings'
 
 class Estate extends Component {
 
@@ -31,7 +34,39 @@ class Estate extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}`)
+        this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}?onDate=current`)
+    }
+
+    renderPlaceRow(place) {
+        if (place == null) {
+            return null
+        }
+
+        return (
+            <tr key={`child-place-${place.id}`}>
+                <td><Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i> : place.name }</Link></td>
+                <td>{ formatNumber(place.value) }</td>
+                <td>{ this.renderPlaceOwner(place) }</td>
+                <td>{ place.totalPopulation }</td>
+            </tr>
+        )
+    }
+
+    renderPlaceOwner(place) {
+        if (place == null || place.owners == null) {
+            return null
+        }
+
+        if (place.owners.length === 0) {
+            return 'no owner'
+        }
+
+        let owner = place.owners[0]
+        return (
+            <div>
+                <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
+            </div>
+        )
     }
 
     render() {
@@ -39,34 +74,51 @@ class Estate extends Component {
             return <p>Sorry, there was an error loading the item</p>
         }
 
-        if (this.props.isLoading) {
-            return <p>Loading...</p>
+        if (this.props.isLoading || this.props.estate.id == null) {
+            return <p>...</p>
         }
 
         return (
             <div>
-            <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
-            <p>Value: {this.props.estate.value}</p>
+                <div className="inner-content">
+                    <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
+                    <p>Estate value: { formatNumber(this.props.estate.value) }</p>
+
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Owner</th>
+                                <th>Residents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.props.estate.places != null && this.props.estate.places.map(p => this.renderPlaceRow(p))
+                        }
+                        </tbody>
+                    </Table>
+                </div>
 
 
-            <Navbar color="light" light expand="md">
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                        <LinkContainer to={`/places/estates/${this.props.estate.id}/owners`}>
-                            <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
-                        </LinkContainer>
-                        <LinkContainer to={`/places/estates/${this.props.estate.id}/residents?onDate=current`}>
-                            <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
-                        </LinkContainer>
-                    </Nav>
-                </Collapse>
-            </Navbar>
+                <Navbar color="light" light expand="md">
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <LinkContainer to={`/places/estates/${this.props.estate.id}/owners`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/estates/${this.props.estate.id}/residents?onDate=current`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
+                            </LinkContainer>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
 
-            <Switch>
-                <Route path="/places/estates/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.estate.id} place={this.props.estate} /> } />
-                <Route path="/places/estates/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.estate.id} place={this.props.estate} /> } />
-            </Switch>
-
+                <Switch>
+                    <Route path="/places/estates/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.estate.id} place={this.props.estate} /> } />
+                    <Route path="/places/estates/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.estate.id} place={this.props.estate} /> } />
+                </Switch>
             </div>
         )
     }

@@ -6,3 +6,11 @@ export function friendlyDate(date) {
     }
     return moment(date).format('MMMM Do, YYYY')
 }
+
+export function friendlyAge(ageInYearsMonthsDays) {
+    if (ageInYearsMonthsDays == null) {
+        return null
+    }
+
+    return ageInYearsMonthsDays.split(',')[0]
+}

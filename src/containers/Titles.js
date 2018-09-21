@@ -9,8 +9,6 @@ export default class Titles extends Component {
     render() {
         return (
             <div className="main-content titles">
-                <h1>Titles</h1>
-
                 <Switch>
                     <Route exact path={`/titles`} component={TitleList} />
                     <Route path={`/titles/:titleId`} component={Title} />
