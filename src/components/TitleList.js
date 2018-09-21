@@ -34,6 +34,27 @@ class TitleList extends Component {
         )
   }
 
+    renderCurrentHolderDeathDate(title) {
+        if (title == null || title.currentHolder == null) {
+            return null
+        }
+
+        return <div>{ friendlyDate(title.currentHolder.deathDate) }</div>
+    }
+
+    renderCurrentHolderDate(title, whichDate) {
+        if (title == null || title.currentHolder == null) {
+            return null
+        }
+
+        let matchingTitle = title.currentHolder.titles.find(t => t.title.id == title.id)
+        if (matchingTitle == null) {
+            return null
+        }
+
+        return <div>{ friendlyDate(matchingTitle[whichDate]) }</div>
+    }
+
   render() {
     if (this.props.hasErrored) {
       return <p>Sorry, there was an error loading the items</p>
@@ -55,6 +76,8 @@ class TitleList extends Component {
                     <tr>
                         <th>Title</th>
                         <th>Current Holder</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +85,8 @@ class TitleList extends Component {
                     <tr key={title.id}>
                         <td><Link to={`/titles/${title.id}`}>{title.name}</Link></td>
                         <td>{ this.renderCurrentHolder(title) }</td>
+                        <td>{ this.renderCurrentHolderDate(title, 'fromDate') }</td>
+                        <td>{ this.renderCurrentHolderDate(title, 'toDate') }</td>
                     </tr>
                 ))}
                 </tbody>

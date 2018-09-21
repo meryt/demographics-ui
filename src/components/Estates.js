@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 import {
     Table
 } from 'reactstrap'
+
 import { placesFetchData } from '../actions/places'
-import { titleCase } from '../utils/strings'
-import { placeTypeToPathType, renderPlaceLink } from '../utils/places'
+
+import { friendlyDate } from '../utils/dates'
+import { renderPlaceLink } from '../utils/places'
 import { renderPersonLink, renderPersonTitles } from '../utils/persons'
 
 class Estates extends Component {
@@ -20,7 +22,7 @@ class Estates extends Component {
       }
 
       return (
-          <tbody>
+          <tbody key={ `estate-row-${estate.id}` }>
             <tr>
                 <th colSpan="2"><Link to={`/places/estates/${estate.id}`}>{estate.name}</Link>, { estate.location }</th>
             </tr>
@@ -45,7 +47,7 @@ class Estates extends Component {
       let owner = estate.currentOwners[0]
       return (
             <div>
-                { renderPersonLink(owner) }{owner.occupation != null && `, ${owner.occupation.name}`}
+                { renderPersonLink(owner) }{owner.occupation != null && `, ${owner.occupation.name}`}, died { friendlyDate(owner.deathDate) }
             </div>
       )
   }
@@ -60,26 +62,23 @@ class Estates extends Component {
           return null
       }
 
-      let firstHousehold = estate.leadingHouseholds[0]
-      var result = this.renderHouseholdRow(firstHousehold, true, numHouseholds)
-
-      for (var i = 1; i < numHouseholds; i++) {
-          result += this.renderHouseholdRow(estate.leadingHouseholds[i], false, numHouseholds)
-      }
-
-      return result
+      let i = 0
+      return estate.leadingHouseholds.map(hh => this.renderHouseholdRow(hh, i++, numHouseholds))
   }
 
-  renderHouseholdRow(household, isFirst, numHouseholds) {
+  renderHouseholdRow(household, index, numHouseholds) {
       if (household == null) {
           return null
       }
 
+      let titles = renderPersonTitles(household.head)
+
       return (
           <tr>
-            { isFirst && <th rowSpan={ numHouseholds }>Leading Households</th> }
-            <td>Household of { renderPersonLink(household.head, '/household') }{
-                household.head.titles != null && ` ${renderPersonTitles(household.head)}` },
+            { index === 0 && <th rowSpan={ numHouseholds }>Leading Households</th> }
+            <td>Household of { renderPersonLink(household.head, '/household') }
+            { titles != null && ', '}
+            { titles != null && titles },
                 resident of { renderPlaceLink(household.location) }</td>
           </tr>
       )

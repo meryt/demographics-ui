@@ -79,10 +79,12 @@ class Title extends Component {
 
                 <Table>
                     <thead>
-                        <th>Name</th>
-                        <th>Birth date</th>
-                        <th>Death date</th>
-                        <th>Relationship to last holder</th>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birth date</th>
+                            <th>Death date</th>
+                            <th>Relationship to last holder</th>
+                        </tr>
                     </thead>
                     <tbody>
                     {title.heirs.map((heir) => (
