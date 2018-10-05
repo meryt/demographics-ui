@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, Link } from 'react-router-dom'
+import { Route, Switch, Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
     Collapse,
@@ -53,15 +53,15 @@ class Estate extends Component {
     }
 
     renderPlaceOwner(place) {
-        if (place == null || place.owners == null) {
+        if (place == null) {
             return null
         }
 
-        if (place.owners.length === 0) {
+        if (place.owner == null) {
             return 'no owner'
         }
 
-        let owner = place.owners[0]
+        let owner = place.owner
         return (
             <div>
                 <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
@@ -78,11 +78,18 @@ class Estate extends Component {
             return <p>...</p>
         }
 
+        if (this.props.estate != null && this.props.location.pathname === `/places/estates/${this.props.estate.id}`) {
+            if (this.props.estate.owners != null && this.props.estate.owners.length > 0) {
+                return <Redirect to={`/places/estates/${this.props.estate.id}/owners`} />
+            }
+        }
+
         return (
             <div>
                 <div className="inner-content">
                     <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
                     <p>Estate value: { formatNumber(this.props.estate.value) }</p>
+                    <p>Estate size: { formatNumber(Math.round(this.props.estate.acres)) } acres</p>
 
                     <Table>
                         <thead>

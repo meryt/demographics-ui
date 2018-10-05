@@ -4,6 +4,7 @@ import {
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { friendlyAge } from '../utils/dates'
+import { renderPersonTitles } from '../utils/persons'
 import { formatPlaceName, placeTypeToPathType } from '../utils/places'
 
 class PersonHousehold extends Component {
@@ -31,9 +32,11 @@ class PersonHousehold extends Component {
 
         return (
             <tr key={ `household-inhabitant-${person.id}` }>
-                <td><Link to={ `/persons/${person.id}` }>{person.firstName} {person.lastName}</Link></td>
+                <td><Link to={ `/persons/${person.id}` }>{person.firstName} {person.lastName}</Link>{
+                    person.titles != null && ', '}{ renderPersonTitles(person) }</td>
                 <td>{ friendlyAge(person.age) } </td>
                 <td>{ person.occupation != null && person.occupation.name }</td>
+                <td>{ person.relationshipToHead != null && person.relationshipToHead.name }</td>
             </tr>
         )
     }
@@ -63,6 +66,7 @@ class PersonHousehold extends Component {
                             <th>Name</th>
                             <th>Age</th>
                             <th>Occupation</th>
+                            <th>Relationship to head</th>
                         </tr>
                     </thead>
 

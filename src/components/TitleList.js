@@ -47,7 +47,7 @@ class TitleList extends Component {
             return null
         }
 
-        let matchingTitle = title.currentHolder.titles.find(t => t.title.id == title.id)
+        let matchingTitle = title.currentHolder.titles.find(t => t.title.id === title.id)
         if (matchingTitle == null) {
             return null
         }

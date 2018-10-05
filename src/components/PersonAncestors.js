@@ -4,6 +4,7 @@ import {
     Table
 } from 'reactstrap'
 import { friendlyDate } from '../utils/dates'
+import { renderPersonTitles } from '../utils/persons'
 
 class PersonAncestors extends Component {
     renderPerson(person) {
@@ -16,17 +17,11 @@ class PersonAncestors extends Component {
         return (
             <div>
                 <h6><Link to={linkLocation}>{person.firstName} {person.lastName}</Link></h6>
-                { person.titles != null && <p>{ this.renderTitles(person.titles) }</p> }
+                { person.titles != null && <p>{ renderPersonTitles(person) }</p> }
                 <p>Born: {friendlyDate(person.birthDate)}</p>
                 <p>Died: {friendlyDate(person.deathDate)}</p>
             </div>
         )
-    }
-
-    renderTitles(titles) {
-        return titles.map((title) => (
-            title.name
-        )).join(', ')
     }
 
     render() {

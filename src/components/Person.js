@@ -16,6 +16,7 @@ import PersonFamilies from './PersonFamilies'
 import PersonAncestors from './PersonAncestors'
 import PersonDescendants from './PersonDescendants'
 import PersonHousehold from './PersonHousehold'
+import PersonCapital from './PersonCapital'
 
 import { formatNumber } from '../utils/strings'
 import { renderPersonTitles } from '../utils/persons'
@@ -133,6 +134,12 @@ class Person extends Component {
                         <th>Traits</th>
                         <td colSpan="5">{this.joinArray(this.props.person.traits, ', ')}</td>
                     </tr>
+                    { this.props.person.occupation &&
+                        <tr>
+                            <th>Occupation</th>
+                            <td colSpan="5">{ this.props.person.occupation.name }</td>
+                        </tr>
+                    }
                 </tbody>
             </Table>
         </div>
@@ -161,16 +168,22 @@ class Person extends Component {
                         <LinkContainer to={`/persons/${this.props.person.id}/descendants`}>
                             <NavItem className="btn btn-light btn-sm" role="button">Descendants</NavItem>
                         </LinkContainer>
+                        {(this.props.person.capitalHistory != null && this.props.person.capitalHistory.length > 0) &&
+                            <LinkContainer to={`/persons/${this.props.person.id}/capital`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Capital</NavItem>
+                            </LinkContainer>
+                        }
                     </Nav>
                 </Collapse>
             </Navbar>
         </div>
 
         <Switch>
-            <Route path="/persons/:id/families" render={ (props) => <PersonFamilies {...props} id={this.props.person.id} person={this.props.person} /> } />
-            <Route path="/persons/:id/ancestors" render={ (props) => <PersonAncestors {...props} id={this.props.person.id} person={this.props.person} /> } />
-            <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendants {...props} id={this.props.person.id} /> } />
-            <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.person.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/families" render={ (props) => <PersonFamilies {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/ancestors" render={ (props) => <PersonAncestors {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendants {...props} id={this.props.match.params.id} /> } />
+            <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/capital" render={ (props) => <PersonCapital {...props} id={this.props.match.params.id} person={this.props.person} /> } />
         </Switch>
       </div>
     )

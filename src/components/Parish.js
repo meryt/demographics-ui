@@ -10,7 +10,7 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { parishFetchData } from '../actions/parish'
-import PlaceOwners from './PlaceOwners'
+import PlaceOccupations from './PlaceOccupations'
 import PlaceResidents from './PlaceResidents'
 import { formatNumber } from '../utils/strings'
 
@@ -79,8 +79,8 @@ class Parish extends Component {
                 <Navbar color="light" light expand="md">
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/owners`}>
-                                <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
+                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/occupations`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Occupations</NavItem>
                             </LinkContainer>
                             <LinkContainer to={`/places/parishes/${this.props.parish.id}/residents`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
@@ -90,7 +90,7 @@ class Parish extends Component {
                 </Navbar>
 
                 <Switch>
-                    <Route path="/places/parishes/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.parish.id} place={this.props.parish} /> } />
+                    <Route path="/places/parishes/:id/occupations" render={ (props) => <PlaceOccupations {...props} id={this.props.parish.id} place={this.props.parish} /> } />
                     <Route path="/places/parishes/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.parish.id} place={this.props.parish} /> } />
                 </Switch>
 

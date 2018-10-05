@@ -9,6 +9,7 @@ import { placesFetchData } from '../actions/places'
 
 import { friendlyDate } from '../utils/dates'
 import { renderPlaceLink } from '../utils/places'
+import { formatNumber } from '../utils/strings'
 import { renderPersonLink, renderPersonTitles } from '../utils/persons'
 
 class Estates extends Component {
@@ -24,7 +25,8 @@ class Estates extends Component {
       return (
           <tbody key={ `estate-row-${estate.id}` }>
             <tr>
-                <th colSpan="2"><Link to={`/places/estates/${estate.id}`}>{estate.name}</Link>, { estate.location }</th>
+                <th colSpan="2"><Link to={`/places/estates/${estate.id}`}>{estate.name}</Link>, { estate.location },
+                 { ' ' + formatNumber(Math.round(estate.acres)) } acres, value { formatNumber(estate.value) }</th>
             </tr>
             <tr>
                 <th>Owner</th>
@@ -36,15 +38,15 @@ class Estates extends Component {
   }
 
   renderCurrentOwner(estate) {
-      if (estate == null || estate.currentOwners == null) {
+      if (estate == null) {
           return null
       }
 
-      if (estate.currentOwners.length === 0) {
+      if (estate.currentOwner == null) {
           return <p><i>Unowned</i></p>
       }
 
-      let owner = estate.currentOwners[0]
+      let owner = estate.currentOwner
       return (
             <div>
                 { renderPersonLink(owner) }{owner.occupation != null && `, ${owner.occupation.name}`}, died { friendlyDate(owner.deathDate) }
@@ -74,7 +76,7 @@ class Estates extends Component {
       let titles = renderPersonTitles(household.head)
 
       return (
-          <tr>
+          <tr key={ `household-row-${household.id}` }>
             { index === 0 && <th rowSpan={ numHouseholds }>Leading Households</th> }
             <td>Household of { renderPersonLink(household.head, '/household') }
             { titles != null && ', '}

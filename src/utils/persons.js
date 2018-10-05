@@ -24,7 +24,7 @@ export function renderPersonTitles(person) {
               .map(t => shouldDereferenceTitle ? t.title : t )
               .map(t => <Link key={ `title-${t.id}` } to={`/titles/${t.id}`}>{t.name}</Link>)
               .reduce((accu, elem) => {
-                  return accu === null ? [elem] : [...accu, ',', elem]
+                  return accu === null ? [elem] : [...accu, ', ', elem]
               }, null)}
         </span>
     )

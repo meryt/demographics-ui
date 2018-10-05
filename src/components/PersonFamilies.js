@@ -4,6 +4,7 @@ import {
 } from 'reactstrap'
 import { Link, Redirect } from 'react-router-dom'
 import { friendlyAge, friendlyDate } from '../utils/dates'
+import { renderPersonTitles } from '../utils/persons'
 
 const NUM_CHILD_COLS = 4
 
@@ -29,6 +30,7 @@ class PersonFamilies extends Component {
             return (
                 <div>
                     <h5><Link to={`/persons/${family.spouse.id}/families`}>{family.spouse.firstName} {family.spouse.lastName}</Link></h5>
+                    { family.spouse.titles && <p>{ renderPersonTitles(family.spouse) }</p> }
                     <p>Born: {friendlyDate(family.spouse.birthDate)}</p>
                     <p>Age: { family.spouse.age == null ? <i>Deceased</i> : friendlyAge(family.spouse.age) }</p>
                     <p>Married: aged {spouseAge}</p>
@@ -89,7 +91,7 @@ class PersonFamilies extends Component {
 
         return <td key={`child-${child.id}`}>
             <h5><Link to={`/persons/${child.id}/families`}>{child.firstName} {child.lastName}</Link></h5>
-
+            { child.titles && <p>{ renderPersonTitles(child) }</p> }
             <p>Born: {friendlyDate(child.birthDate)}</p>
             <p>Age: { child.age == null ? <i>Deceased</i> : friendlyAge(child.age) }</p>
             <p>Died: {friendlyDate(child.deathDate)}, aged {friendlyAge(child.ageAtDeath)}</p>

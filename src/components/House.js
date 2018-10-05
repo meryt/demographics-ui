@@ -67,6 +67,7 @@ class House extends Component {
                 <td><Link to={ `/persons/${person.id}` }>{person.firstName} {person.lastName}</Link></td>
                 <td>{ friendlyAge(person.age) } </td>
                 <td>{ person.occupation != null && person.occupation.name }</td>
+                <td>{ person.relationshipToHead != null && person.relationshipToHead.name }</td>
             </tr>
         )
     }
@@ -84,18 +85,20 @@ class House extends Component {
     }
 
     renderPlaceOwner(place) {
-        if (place == null || place.currentOwners == null) {
+        if (place == null) {
             return null
         }
 
-        if (place.currentOwners.length === 0) {
+        if (place.currentOwner == null) {
             return <p><i>Unowned</i></p>
         }
 
-        let owner = place.currentOwners[0]
+        let owner = place.currentOwner
         return (
             <p>
-                Owned by <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
+                Owned by <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>
+                {owner.occupation != null && `, ${owner.occupation.name}`}
+                {place.entailed && ' (entailed)'}
             </p>
         )
     }
@@ -140,6 +143,7 @@ class House extends Component {
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Occupation</th>
+                                <th>Relationship to head</th>
                             </tr>
                         </thead>
                         {

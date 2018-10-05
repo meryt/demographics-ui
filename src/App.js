@@ -53,7 +53,7 @@ class App extends Component {
                             <LinkContainer to="/persons">
                                 <NavItem className="btn people-btn" role="button">People</NavItem>
                             </LinkContainer>
-                            <LinkContainer to="/places">
+                            <LinkContainer to="/places/estates">
                                 <NavItem className="btn places-btn" role="button">Places</NavItem>
                             </LinkContainer>
                             <LinkContainer to="/titles">
