@@ -11,7 +11,7 @@ const NUM_CHILD_COLS = 4
 class PersonFamilies extends Component {
 
     marriageDateOrSpouse(family, pos) {
-        if (family == null || family.weddingDate == null) {
+        if (family == null || family.id == null) {
             return ' '
         }
 
@@ -25,7 +25,11 @@ class PersonFamilies extends Component {
         let isMale = this.props.person.gender === 'MALE'
 
         if ((pos === 'left' && isMale) || (pos === 'right' && !isMale)) {
-            return <p>Married {friendlyDate(family.weddingDate)}, aged {age}</p>
+            if (family.weddingDate == null) {
+                return <p>Never married</p>
+            } else {
+                return <p>Married {friendlyDate(family.weddingDate)}, aged {age}</p>
+            }
         } else {
             return (
                 <div>
@@ -33,7 +37,7 @@ class PersonFamilies extends Component {
                     { family.spouse.titles && <p>{ renderPersonTitles(family.spouse) }</p> }
                     <p>Born: {friendlyDate(family.spouse.birthDate)}</p>
                     <p>Age: { family.spouse.age == null ? <i>Deceased</i> : friendlyAge(family.spouse.age) }</p>
-                    <p>Married: aged {spouseAge}</p>
+                    { (family.weddingDate != null) && <p>Married: aged {spouseAge}</p> }
                     <p>Died: {friendlyDate(family.spouse.deathDate)}, aged {friendlyAge(family.spouse.ageAtDeath)}</p>
                 </div>
             )

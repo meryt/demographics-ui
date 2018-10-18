@@ -11,7 +11,6 @@ import { renderPersonLink } from '../utils/persons'
 
 class Title extends Component {
 
-
     componentDidMount() {
         this.props.fetchData(`http://localhost:8095/api/titles/${this.props.match.params.titleId}`)
     }
@@ -44,7 +43,7 @@ class Title extends Component {
             <div className="inner-content">
             <h2>{title.name} {(title.extinct) && '(extinct)'}</h2>
             {(title.abeyanceCheckDate != null) && <p>(in abeyance until at least { friendlyDate(title.abeyanceCheckDate) })</p> }
-            <p>Peerage: {titleCase(title.peerage)}</p>
+            <p>Peerage: {titleCase(enumToText(title.peerage))}</p>
             <p>Class: {title.socialClass}</p>
             <p>Inheritance: { enumToText(title.inheritanceStyle) }</p>
 

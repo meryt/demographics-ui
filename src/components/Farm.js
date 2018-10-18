@@ -16,7 +16,7 @@ import PlaceResidents from './PlaceResidents'
 import { placeTypeToPathType } from '../utils/places'
 import { formatNumber, titleCase } from '../utils/strings'
 
-class Estate extends Component {
+class Farm extends Component {
 
     constructor(props) {
         super(props)
@@ -34,7 +34,7 @@ class Estate extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}?onDate=current`)
+        this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.farmId}?onDate=current`)
     }
 
     renderPlaceRow(place) {
@@ -55,10 +55,6 @@ class Estate extends Component {
     renderPlaceOwner(place) {
         if (place == null) {
             return null
-        }
-
-        if (place.ruinedDate != null) {
-            return <i>Ruined</i>
         }
 
         if (place.owner == null) {
@@ -92,8 +88,10 @@ class Estate extends Component {
             <div>
                 <div className="inner-content">
                     <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
-                    <p>Estate value: { formatNumber(this.props.estate.value) }</p>
-                    <p>Estate size: { formatNumber(Math.round(this.props.estate.acres)) } acres</p>
+                    <p>Farm value: { formatNumber(this.props.estate.value) }</p>
+                    { this.props.estate.acres != null &&
+                        <p>Estate size: { formatNumber(Math.round(this.props.estate.acres)) } acres</p>
+                    }
 
                     <Table>
                         <thead>
@@ -149,4 +147,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Estate)
+export default connect(mapStateToProps, mapDispatchToProps)(Farm)

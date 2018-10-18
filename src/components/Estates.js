@@ -13,9 +13,18 @@ import { formatNumber } from '../utils/strings'
 import { renderPersonLink, renderPersonTitles } from '../utils/persons'
 
 class Estates extends Component {
-  componentDidMount() {
-      this.props.fetchData(`http://localhost:8095/api/places/estates?onDate=current`)
-  }
+
+    componentDidMount() {
+        this.props.fetchData(`http://localhost:8095/api/places/${this.props.type}?onDate=current`)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.type !== prevProps.type) {
+            // Must call this function every time the type changes, since componentDidMount is only called once.
+            // Otherwise once you are on the PlaceList, clicking between types of place will not reload data.
+            this.props.fetchData(`http://localhost:8095/api/places/${this.props.type}?onDate=current`)
+        }
+    }
 
   renderEstateRows(estate) {
       if (estate == null) {
@@ -25,14 +34,19 @@ class Estates extends Component {
       return (
           <tbody key={ `estate-row-${estate.id}` }>
             <tr>
-                <th colSpan="2"><Link to={`/places/estates/${estate.id}`}>{estate.name}</Link>, { estate.location },
-                 { ' ' + formatNumber(Math.round(estate.acres)) } acres, value { formatNumber(estate.value) }</th>
+                <th colSpan="2"><Link to={`/places/${this.props.type}/${estate.id}`}>{estate.name}</Link>, { estate.location },
+                 { estate.acres != null && <span>{ formatNumber(Math.round(estate.acres)) } acres,</span> }
+                 value { formatNumber(estate.value) }</th>
             </tr>
             <tr>
                 <th>Owner</th>
                 <td>{ this.renderCurrentOwner(estate) }</td>
             </tr>
             { this.renderLeadingHouseholds(estate) }
+            <tr>
+                <th>Population</th>
+                <td>{ estate.totalPopulation }</td>
+            </tr>
           </tbody>
       )
   }

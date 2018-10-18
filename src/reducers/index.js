@@ -3,6 +3,7 @@ import { estate, estateHasErrored, estateIsLoading } from './estates'
 import { house, houseHasErrored, houseIsLoading } from './houses'
 import { parish, parishHasErrored, parishIsLoading } from './parishes'
 import { descendants, descendantsHasErrored, descendantsIsLoading,
+         relatives, relativesHasErrored, relativesIsLoading,
          person, personHasErrored, personIsLoading } from './persons'
 import { places, placesHasErrored, placesIsLoading } from './places'
 import { title, titleHasErrored, titleIsLoading,
@@ -28,6 +29,9 @@ export default combineReducers({
     places,
     placesHasErrored,
     placesIsLoading,
+    relatives,
+    relativesHasErrored,
+    relativesIsLoading,
     title,
     titleHasErrored,
     titleIsLoading,

@@ -15,8 +15,11 @@ import moment from 'moment'
 import PersonFamilies from './PersonFamilies'
 import PersonAncestors from './PersonAncestors'
 import PersonDescendants from './PersonDescendants'
+import PersonRelatives from './PersonRelatives'
 import PersonHousehold from './PersonHousehold'
 import PersonCapital from './PersonCapital'
+import PersonResidences from './PersonResidences'
+import PersonProperty from './PersonProperty'
 
 import { formatNumber } from '../utils/strings'
 import { renderPersonTitles } from '../utils/persons'
@@ -168,9 +171,27 @@ class Person extends Component {
                         <LinkContainer to={`/persons/${this.props.person.id}/descendants`}>
                             <NavItem className="btn btn-light btn-sm" role="button">Descendants</NavItem>
                         </LinkContainer>
+
+                        {(this.props.person.family != null || this.props.person.families != null) &&
+                            <LinkContainer to={`/persons/${this.props.person.id}/relatives`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Relatives</NavItem>
+                            </LinkContainer>
+                        }
+
+                        {(this.props.person.residences != null && this.props.person.residences.length > 0) &&
+                            <LinkContainer to={`/persons/${this.props.person.id}/residences`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Residences</NavItem>
+                            </LinkContainer>
+                        }
+
                         {(this.props.person.capitalHistory != null && this.props.person.capitalHistory.length > 0) &&
                             <LinkContainer to={`/persons/${this.props.person.id}/capital`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Capital</NavItem>
+                            </LinkContainer>
+                        }
+                        {(this.props.person.ownedProperties != null && this.props.person.ownedProperties.length > 0) &&
+                            <LinkContainer to={`/persons/${this.props.person.id}/property`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Property</NavItem>
                             </LinkContainer>
                         }
                     </Nav>
@@ -184,6 +205,9 @@ class Person extends Component {
             <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendants {...props} id={this.props.match.params.id} /> } />
             <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/capital" render={ (props) => <PersonCapital {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/residences" render={ (props) => <PersonResidences {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/property" render={ (props) => <PersonProperty {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/relatives" render={ (props) => <PersonRelatives {...props} id={this.props.match.params.id} person={this.props.person} /> } />
         </Switch>
       </div>
     )

@@ -58,6 +58,10 @@ class Town extends Component {
             return null
         }
 
+        if (place.ruinedDate != null) {
+            return <i>Ruined</i>
+        }
+
         if (place.owner == null) {
             return 'no owner'
         }

@@ -4,7 +4,10 @@ import {
   PERSON_FETCH_DATA_SUCCESS,
   DESCENDANTS_HAS_ERRORED,
   DESCENDANTS_IS_LOADING,
-  DESCENDANTS_FETCH_DATA_SUCCESS
+  DESCENDANTS_FETCH_DATA_SUCCESS,
+  RELATIVES_HAS_ERRORED,
+  RELATIVES_IS_LOADING,
+  RELATIVES_FETCH_DATA_SUCCESS
 } from '../constants/action-types.js'
 
 export function personHasErrored(bool) {
@@ -90,5 +93,48 @@ export function descendantsFetchData(url) {
       .then((response) => response.json())
       .then((descendants) => dispatch(descendantsFetchDataSuccess(descendants)))
       .catch(() => dispatch(descendantsHasErrored(true)))
+  }
+}
+
+export function relativesHasErrored(bool) {
+  return {
+    type: RELATIVES_HAS_ERRORED,
+    hasErrored: bool
+  }
+}
+
+export function relativesIsLoading(bool) {
+  return {
+    type: RELATIVES_IS_LOADING,
+    isLoading: bool
+  }
+}
+
+export function relativesFetchDataSuccess(relatives) {
+  return {
+    type: RELATIVES_FETCH_DATA_SUCCESS,
+    relatives
+  }
+}
+
+export function relativesFetchData(url) {
+  return (dispatch) => {
+    dispatch(relativesIsLoading(true))
+
+    console.log("Fetching " + url)
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(relativesIsLoading(false))
+
+        return response
+      })
+      .then((response) => response.json())
+      .then((relatives) => dispatch(relativesFetchDataSuccess(relatives)))
+      .catch(() => dispatch(relativesHasErrored(true)))
   }
 }
