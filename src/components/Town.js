@@ -5,16 +5,13 @@ import {
     Collapse,
     Navbar,
     Nav,
-    NavItem,
-    Table
+    NavItem
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { townFetchData } from '../actions/towns'
 import PlaceResidents from './PlaceResidents'
-import { getYear } from '../utils/dates'
-import { placeTypeToPathType } from '../utils/places'
-import { titleCase } from '../utils/strings'
+import { placeTypeToPathType, renderTableOfDwellings } from '../utils/places'
 
 class Town extends Component {
 
@@ -35,43 +32,6 @@ class Town extends Component {
 
     componentDidMount() {
         this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.townId}?onDate=current`)
-    }
-
-    renderPlaceRow(place) {
-        if (place == null) {
-            return null
-        }
-
-        return (
-            <tr key={`child-place-${place.id}`}>
-                <td><Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i> : place.name }</Link></td>
-                <td>{ place.value }</td>
-                <td>{ getYear(place.foundedDate) }</td>
-                <td>{ this.renderPlaceOwner(place) }</td>
-                <td>{ place.totalPopulation }</td>
-            </tr>
-        )
-    }
-
-    renderPlaceOwner(place) {
-        if (place == null) {
-            return null
-        }
-
-        if (place.ruinedDate != null) {
-            return <i>Ruined</i>
-        }
-
-        if (place.owner == null) {
-            return 'no owner'
-        }
-
-        let owner = place.owner
-        return (
-            <div>
-                <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
-            </div>
-        )
     }
 
     renderParentLocationLink(place) {
@@ -102,22 +62,8 @@ class Town extends Component {
 
                     <p>Population { this.props.town.totalPopulation }</p>
 
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Built</th>
-                                <th>Owner</th>
-                                <th>Residents</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.props.town.places != null && this.props.town.places.map(p => this.renderPlaceRow(p))
-                        }
-                        </tbody>
-                    </Table>
+                    { renderTableOfDwellings(this.props.town.places) }
+
                 </div>
 
             <Navbar color="light" light expand="md">

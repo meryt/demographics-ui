@@ -95,7 +95,7 @@ class Estates extends Component {
             <td>Household of { renderPersonLink(household.head, '/household') }
             { titles != null && ', '}
             { titles != null && titles },
-                resident of { renderPlaceLink(household.location) }</td>
+                resident of { renderPlaceLink(household.location) }, value { household.location.value }</td>
           </tr>
       )
   }

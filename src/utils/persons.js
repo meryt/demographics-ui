@@ -29,3 +29,7 @@ export function renderPersonTitles(person) {
         </span>
     )
 }
+
+export function friendlyClass(socialClassString) {
+    return socialClassString.split(' ')[0].split(',')[0]
+}

@@ -12,8 +12,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { houseFetchData } from '../actions/houses'
 import PlaceOwners from './PlaceOwners'
-import { placeTypeToPathType } from '../utils/places'
 import { friendlyAge, friendlyDate } from '../utils/dates'
+import { placeTypeToPathType } from '../utils/places'
+import { friendlyClass } from '../utils/persons'
 import { formatNumber } from '../utils/strings'
 
 class House extends Component {
@@ -46,7 +47,7 @@ class House extends Component {
             <tbody key={`household-${household.id}`}>
 
                 <tr>
-                    <td colSpan="3">Household { household.id }</td>
+                    <td colSpan="4">Household { household.id }</td>
                 </tr>
 
                 { household.head != null && this.renderInhabitantRow(household.head) }
@@ -66,6 +67,7 @@ class House extends Component {
             <tr key={ `household-inhabitant-${person.id}` }>
                 <td><Link to={ `/persons/${person.id}` }>{person.firstName} {person.lastName}</Link></td>
                 <td>{ friendlyAge(person.age) } </td>
+                <td>{ friendlyClass(person.socialClass) }</td>
                 <td>{ person.occupation != null && person.occupation.name }</td>
                 <td>{ person.relationshipToHead != null && person.relationshipToHead.name }</td>
             </tr>
@@ -131,6 +133,8 @@ class House extends Component {
 
                     <p>Built { friendlyDate(this.props.house.foundedDate )}</p>
 
+                    { this.props.house.ruinedDate != null && <p>Ruined { friendlyDate(this.props.house.ruinedDate)}</p> }
+
                     { this.props.house.value != null &&
                         <p>Value: { formatNumber(this.props.house.value) }</p>
                     }
@@ -142,6 +146,7 @@ class House extends Component {
                             <tr>
                                 <th>Name</th>
                                 <th>Age</th>
+                                <th>Class</th>
                                 <th>Occupation</th>
                                 <th>Relationship to head</th>
                             </tr>

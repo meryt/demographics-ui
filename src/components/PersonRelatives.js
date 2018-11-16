@@ -7,7 +7,7 @@ import {
 import { relativesFetchData } from '../actions/person'
 
 import { renderPersonLink } from '../utils/persons'
-import { friendlyAge, friendlyDate } from '../utils/dates'
+import { friendlyDate } from '../utils/dates'
 
 class PersonRelatives extends Component {
     componentDidMount() {

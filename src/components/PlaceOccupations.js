@@ -8,7 +8,7 @@ class PlaceOccupations extends Component {
 
     renderPersonRow(person) {
         return (
-            <tr>
+            <tr key={ `occ-person-${person.id}` }>
                 <td>{ renderPersonLink(person) }</td>
             </tr>
         )
@@ -19,15 +19,12 @@ class PlaceOccupations extends Component {
             return null
         }
 
-        console.log(name)
-        console.log(people)
-
         return (
-            <tbody>
+            <tbody key={ `occupation-${name}` }>
                 <tr>
                     <th>{ name }</th>
                 </tr>
-                { people.forEach((person) => this.renderPersonRow(person)) }
+                { people.map((person) => this.renderPersonRow(person)) }
             </tbody>
         )
     }
@@ -49,7 +46,7 @@ class PlaceOccupations extends Component {
                             <th>Name</th>
                         </tr>
                     </thead>
-                        { Object.entries(this.props.place.occupations).forEach((entry) => this.renderOccupationRows(entry[0], entry[1])) }
+                        { Object.entries(this.props.place.occupations).map((entry) => this.renderOccupationRows(entry[0], entry[1])) }
                 </Table>
             </div>
         )

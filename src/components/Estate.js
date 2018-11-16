@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
-import { Route, Switch, Link, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
     Collapse,
     Navbar,
     Nav,
-    NavItem,
-    Table
+    NavItem
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { estateFetchData } from '../actions/estate'
 import PlaceOwners from './PlaceOwners'
 import PlaceResidents from './PlaceResidents'
-import { placeTypeToPathType } from '../utils/places'
-import { formatNumber, titleCase } from '../utils/strings'
+import { renderTableOfDwellings } from '../utils/places'
+import { formatNumber } from '../utils/strings'
 
 class Estate extends Component {
 
@@ -35,42 +34,6 @@ class Estate extends Component {
 
     componentDidMount() {
         this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.estateId}?onDate=current`)
-    }
-
-    renderPlaceRow(place) {
-        if (place == null) {
-            return null
-        }
-
-        return (
-            <tr key={`child-place-${place.id}`}>
-                <td><Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i> : place.name }</Link></td>
-                <td>{ formatNumber(place.value) }</td>
-                <td>{ this.renderPlaceOwner(place) }</td>
-                <td>{ place.totalPopulation }</td>
-            </tr>
-        )
-    }
-
-    renderPlaceOwner(place) {
-        if (place == null) {
-            return null
-        }
-
-        if (place.ruinedDate != null) {
-            return <i>Ruined</i>
-        }
-
-        if (place.owner == null) {
-            return 'no owner'
-        }
-
-        let owner = place.owner
-        return (
-            <div>
-                <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
-            </div>
-        )
     }
 
     render() {
@@ -95,21 +58,7 @@ class Estate extends Component {
                     <p>Estate value: { formatNumber(this.props.estate.value) }</p>
                     <p>Estate size: { formatNumber(Math.round(this.props.estate.acres)) } acres</p>
 
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Owner</th>
-                                <th>Residents</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.props.estate.places != null && this.props.estate.places.map(p => this.renderPlaceRow(p))
-                        }
-                        </tbody>
-                    </Table>
+                    { renderTableOfDwellings(this.props.estate.places) }
                 </div>
 
 
