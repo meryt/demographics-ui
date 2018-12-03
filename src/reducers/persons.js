@@ -1,4 +1,7 @@
 import {
+    CHARACTERS_HAS_ERRORED,
+    CHARACTERS_IS_LOADING,
+    CHARACTERS_FETCH_DATA_SUCCESS,
     PERSON_HAS_ERRORED,
     PERSON_IS_LOADING,
     PERSON_FETCH_DATA_SUCCESS,
@@ -86,6 +89,33 @@ export function relatives(state = [], action) {
     switch(action.type) {
         case RELATIVES_FETCH_DATA_SUCCESS:
             return action.relatives
+        default:
+            return state
+    }
+}
+
+export function charactersHasErrored(state = false, action) {
+    switch(action.type) {
+        case CHARACTERS_HAS_ERRORED:
+            return action.hasErrored
+        default:
+            return state
+    }
+}
+
+export function charactersIsLoading(state = false, action) {
+    switch(action.type) {
+        case CHARACTERS_IS_LOADING:
+            return action.isLoading
+        default:
+            return state
+    }
+}
+
+export function characters(state = [], action) {
+    switch(action.type) {
+        case CHARACTERS_FETCH_DATA_SUCCESS:
+            return action.characters
         default:
             return state
     }

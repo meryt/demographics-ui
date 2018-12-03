@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Timeline from 'react-visjs-timeline'
 
 import { getYear } from '../utils/dates'
-import { renderPersonLink } from '../utils/persons'
 import { formatPlaceName } from '../utils/places'
 
 class PersonTimeline extends Component {
