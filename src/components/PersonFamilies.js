@@ -57,7 +57,7 @@ class PersonFamilies extends Component {
                 if (array.length === 0) {
                     inner.push(null)
                 } else {
-                    inner.push(array[i + j])
+                    inner.push(array[(i * chunk_size) + j])
                 }
             }
             outer.push(inner)
