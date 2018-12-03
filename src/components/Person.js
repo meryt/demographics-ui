@@ -20,6 +20,7 @@ import PersonHousehold from './PersonHousehold'
 import PersonCapital from './PersonCapital'
 import PersonResidences from './PersonResidences'
 import PersonProperty from './PersonProperty'
+import PersonTimeline from './PersonTimeline'
 
 import { formatNumber } from '../utils/strings'
 import { renderPersonTitles } from '../utils/persons'
@@ -184,6 +185,10 @@ class Person extends Component {
                             </LinkContainer>
                         }
 
+                        <LinkContainer to={`/persons/${this.props.person.id}/timeline`}>
+                            <NavItem className="btn btn-light btn-sm" role="button">Timeline</NavItem>
+                        </LinkContainer>
+
                         {(this.props.person.capitalHistory != null && this.props.person.capitalHistory.length > 0) &&
                             <LinkContainer to={`/persons/${this.props.person.id}/capital`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Capital</NavItem>
@@ -206,6 +211,7 @@ class Person extends Component {
             <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/capital" render={ (props) => <PersonCapital {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/residences" render={ (props) => <PersonResidences {...props} id={this.props.match.params.id} person={this.props.person} /> } />
+            <Route path="/persons/:id/timeline" render={ (props) => <PersonTimeline {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/property" render={ (props) => <PersonProperty {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/relatives" render={ (props) => <PersonRelatives {...props} id={this.props.match.params.id} person={this.props.person} /> } />
         </Switch>

@@ -133,6 +133,31 @@ div.inner-content {
     padding: 20px;
 }
 
+.personTimeline .vis-item {
+  background-color: #02c39a;
+  border-color: #00a896;
+}
+
+.vis-item.timeline-title {
+  background-color: #ffa002;
+  border-color: #df7000;
+}
+
+.vis-item.timeline-residence {
+  background-color: #64c4b8;
+  border-color: #349488;
+}
+
+.vis-item.timeline-person-MALE {
+  background-color: #63b1ff;
+  border-color: #2b5ea0;
+}
+
+.vis-item.timeline-person-FEMALE {
+  background-color: #ff979f;
+  border-color: #cf676f;
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
     .top-nav {
