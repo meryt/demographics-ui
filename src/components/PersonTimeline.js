@@ -91,7 +91,7 @@ class PersonTimeline extends Component {
     }
 
     formatNameAndDates(person) {
-      return `${person.firstName} ${person.lastName} (${getYear(person.birthDate)} - ${getYear(person.deathDate)})`
+      return `<a href="/persons/${person.id}/timeline">${person.firstName} ${person.lastName} (${getYear(person.birthDate)} - ${getYear(person.deathDate)})</a>`
     }
 
     createPersonLifespanItem(person, groupId, gender) {

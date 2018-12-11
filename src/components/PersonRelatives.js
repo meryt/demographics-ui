@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import queryString from 'query-string'
 import {
     Table
 } from 'reactstrap'
@@ -10,8 +12,40 @@ import { renderPersonLink } from '../utils/persons'
 import { friendlyDate } from '../utils/dates'
 
 class PersonRelatives extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.isOnlyLiving = true
+        this.aliveOnDate = null
+        this.maxDistance = null
+    }
+
+    componentDidUpdate() {
+        this.maybeFetchData(queryString.parse(this.props.location.search))
+    }
+
     componentDidMount() {
-        this.props.fetchData(`http://localhost:8095/api/persons/${this.props.match.params.id}/relatives?aliveOnDate=current&maxDistance=4`)
+        this.maybeFetchData(queryString.parse(this.props.location.search))
+    }
+
+    maybeFetchData(queryValues) {
+
+        let aliveOnDate = (typeof(queryValues.aliveOnDate) !== 'string' || queryValues.aliveOnDate === null)
+            ? 'current'
+            : queryValues.aliveOnDate
+        let maxDistance = (typeof(queryValues.maxDistance) !== 'string' || queryValues.maxDistance === null)
+            ? '4'
+            : queryValues.maxDistance
+
+        if (aliveOnDate !== this.aliveOnDate || maxDistance !== this.maxDistance) {
+            this.aliveOnDate = aliveOnDate
+            this.maxDistance = maxDistance
+            this.isOnlyLiving = aliveOnDate === 'current'
+
+            this.props.fetchData(`http://localhost:8095/api/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${this.maxDistance}`)
+        }
+
     }
 
     render() {
@@ -28,7 +62,18 @@ class PersonRelatives extends Component {
 
         return (
             <div className="inner-content">
-                <h4>Living Relatives</h4>
+                <h4>{ this.isOnlyLiving && 'Living' }{ this.isOnlyLiving || 'All' } Relatives</h4>
+
+                <p>
+                { this.isOnlyLiving && <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=&maxDistance=${this.maxDistance}` }>Show living and dead relatives</Link> }
+                { this.isOnlyLiving || <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=current&maxDistance=${this.maxDistance}` }>Show only living relatives</Link> }
+                </p>
+
+                <p>
+                    <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance) - 1}` }>&laquo; Show only closer relatives</Link>
+                     &nbsp;|&nbsp;
+                     <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance) + 1}` }>Show more distant relatives &raquo;</Link>
+                </p>
 
                 <Table>
                     <thead>

@@ -166,6 +166,16 @@ div.inner-content {
   border-color: #cf676f;
 }
 
+.vis-item-content a {
+    text-decoration: none;
+    color: #000;
+}
+
+.vis-item-content a:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
     .top-nav {
