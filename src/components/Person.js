@@ -108,7 +108,7 @@ class Person extends Component {
                     </tr>
                     <tr>
                         <th>Height</th>
-                        <td>{this.props.person.height}</td>
+                        <td>{this.props.person.height}{ this.props.person.currentHeight && ` (${this.props.person.currentHeight})`}</td>
                         <th>Hair</th>
                         <td>{this.props.person.hairColor}</td>
                         <th>Eyes</th>
