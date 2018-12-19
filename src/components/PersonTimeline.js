@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import Timeline from 'react-visjs-timeline'
 
-import { getYear } from '../utils/dates'
+import '../css/timeline.css'
+
+import { getYear, subtractOneDay } from '../utils/dates'
 import { formatPlaceName } from '../utils/places'
 
 class PersonTimeline extends Component {
@@ -16,69 +18,80 @@ class PersonTimeline extends Component {
         const options = {
           width: '100%',
           start: person.birthDate,
-          end: person.deathDate
+          end: person.deathDate,
+          margin: {
+              item: {
+                  horizontal: 0
+              }
+          }
         }
 
-        const LIFE_ID = 0
-        const TITLES_ID = -1
-        const RESIDENCES_ID = -2
+        const LIFE_ID = `person_${person.id}-lifespan`
+        const TITLES_ID = `person_${person.id}-titles`
+        const RESIDENCES_ID = `person_${person.id}-residences`
+
+        let order = 0
 
         let groups = [
           {
             id: LIFE_ID,
-            content: 'Life'
+            content: 'Life',
+            order: order++
           }
         ];
 
         let items = [ ];
         items.push(this.createPersonLifespanItem(person, LIFE_ID))
 
-        if (person.titles != null && person.titles.length > 0) {
-          groups.push({id: TITLES_ID, content: 'Titles'})
-          for (var k = 0; k < person.titles.length; k++) {
-            items.unshift(this.createTitleSpan(person.titles[k], TITLES_ID))
-          }
-        }
-
-        if (person.residences != null && person.residences.length > 0) {
-          groups.push({id: RESIDENCES_ID, content: 'Residences'})
-
-          for (var l = 0; l < person.residences.length; l++) {
-            items.unshift(this.createResidenceSpan(person.residences[l], RESIDENCES_ID))
-          }
-        }
-
         if (person.family != null) {
-          groups.push({id: person.family.id, content: 'Parents'})
+            let groupId = `family_${person.family.id}`
+
+          groups.push({id: groupId, content: 'Parents', order: order++})
 
           if (person.family.father != null) {
-            items.unshift(this.createPersonLifespanItem(person.family.father, person.family.id, 'MALE'))
+            items.unshift(this.createPersonLifespanItem(person.family.father, groupId, 'MALE'))
           }
           if (person.family.mother != null) {
-            items.unshift(this.createPersonLifespanItem(person.family.mother, person.family.id, 'FEMALE'))
+            items.unshift(this.createPersonLifespanItem(person.family.mother, groupId, 'FEMALE'))
           }
         }
 
         if (person.families != null && person.families.length > 0) {
           for (var i = 0; i < person.families.length; i++) {
             var family = person.families[i];
-            groups.push({id: family.id, content: 'Family'})
+            let groupId = `family_${family.id}`
+            groups.push({id: groupId, content: 'Family', order: order++})
 
             if (family.spouse != null) {
               var spouseGender = person.gender === 'MALE' ? 'FEMALE' : 'MALE'
-              items.unshift(this.createPersonLifespanItem(family.spouse, family.id, spouseGender))
+              items.unshift(this.createPersonLifespanItem(family.spouse, groupId, spouseGender))
             }
 
-            var marriageSpan = this.createMarriageItem(family, person)
+            var marriageSpan = this.createMarriageItem(family, person, groupId)
             if (marriageSpan != null) {
               items.unshift(marriageSpan)
             }
 
             if (family.children != null && family.children.length > 0) {
               for (var j = 0; j < family.children.length; j++) {
-                items.unshift(this.createPersonLifespanItem(family.children[j], family.id))
+                items.unshift(this.createPersonLifespanItem(family.children[j], groupId))
               }
             }
+          }
+        }
+
+        if (person.titles != null && person.titles.length > 0) {
+          groups.push({id: TITLES_ID, content: 'Titles', order: order++})
+          for (var k = 0; k < person.titles.length; k++) {
+            items.unshift(this.createTitleSpan(person.titles[k], TITLES_ID))
+          }
+        }
+
+        if (person.residences != null && person.residences.length > 0) {
+          groups.push({id: RESIDENCES_ID, content: 'Residences', order: order++})
+
+          for (var l = 0; l < person.residences.length; l++) {
+            items.unshift(this.createResidenceSpan(person.residences[l], RESIDENCES_ID))
           }
         }
 
@@ -122,8 +135,8 @@ class PersonTimeline extends Component {
     createResidenceSpan(residence, groupId) {
       var obj = {
           start: residence.fromDate,
-          end: residence.toDate,
-          content: `${formatPlaceName(residence.location)}, ${residence.location.location} (${getYear(residence.fromDate)} - ${getYear(residence.toDate)})`,
+          end: subtractOneDay(residence.toDate),
+          content: `<a href="/places/houses/${residence.location.id}">${formatPlaceName(residence.location)}</a>, ${residence.location.location} (${getYear(residence.fromDate)} - ${getYear(residence.toDate)})`,
           group: groupId,
           className: 'timeline-residence'
       }
@@ -131,7 +144,7 @@ class PersonTimeline extends Component {
       return obj
     }
 
-    createMarriageItem(family, person) {
+    createMarriageItem(family, person, groupId) {
       if (family == null || family.weddingDate == null || family.spouse == null) {
         return null
       }
@@ -140,7 +153,7 @@ class PersonTimeline extends Component {
         start: family.weddingDate,
         end: lowestDeathDate,
         content: `Married ${getYear(family.weddingDate)} - ${getYear(lowestDeathDate)}`,
-        group: family.id
+        group: groupId
       }
       obj.title = obj.content
       return obj

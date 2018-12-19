@@ -21,3 +21,7 @@ export function friendlyAge(ageInYearsMonthsDays) {
 
     return ageInYearsMonthsDays.split(',')[0]
 }
+
+export function subtractOneDay(date) {
+    return moment(date).subtract(1, 'days').format('YYYY-MM-DD')
+}
