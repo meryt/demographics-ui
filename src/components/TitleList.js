@@ -83,7 +83,7 @@ class TitleList extends Component {
                 <tbody>
                 {this.props.titles.map((title) => (
                     <tr key={title.id}>
-                        <td><Link to={`/titles/${title.id}`}>{title.name}</Link></td>
+                        <td><Link to={`/persons/titles/${title.id}`}>{title.name}</Link></td>
                         <td>{ this.renderCurrentHolder(title) }</td>
                         <td>{ this.renderCurrentHolderDate(title, 'fromDate') }</td>
                         <td>{ this.renderCurrentHolderDate(title, 'toDate') }</td>

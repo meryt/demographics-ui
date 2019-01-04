@@ -70,9 +70,9 @@ class PersonRelatives extends Component {
                 </p>
 
                 <p>
-                    <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance) - 1}` }>&laquo; Show only closer relatives</Link>
+                    <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance, 10) - 1}` }>&laquo; Show only closer relatives</Link>
                      &nbsp;|&nbsp;
-                     <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance) + 1}` }>Show more distant relatives &raquo;</Link>
+                     <Link to={ `/persons/${this.props.match.params.id}/relatives?aliveOnDate=${this.aliveOnDate}&maxDistance=${parseInt(this.maxDistance, 10) + 1}` }>Show more distant relatives &raquo;</Link>
                 </p>
 
                 <Table>

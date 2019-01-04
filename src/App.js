@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import {
     Collapse,
     Navbar,
@@ -8,6 +9,8 @@ import {
     NavItem
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+
+import { currentDateFetchData } from './actions/timeline'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/App.css'
@@ -24,6 +27,10 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.fetchData(`http://localhost:8095/api/calendar/currentDate`)
+    }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen
@@ -31,18 +38,22 @@ class App extends Component {
     }
 
   render() {
+      if (this.props.hasErrored) {
+        return <p>Sorry, there was an error loading the current date</p>
+      }
+
+      if (this.props.isLoading) {
+        return <p>Loading...</p>
+      }
+
+      if (this.props.currentDate == null) {
+          return <p>no current date found</p>
+      }
+
     return (
         <div>
             <div className="above-app" />
             <div className="App container">
-                <Navbar className="top-nav" expand="md">
-                        <Nav className="ml-auto" navbar>
-                            <NavItem className="btn people-btn" role="button"></NavItem>
-                            <NavItem className="btn places-btn" role="button"></NavItem>
-                            <NavItem className="btn titles-btn" role="button"></NavItem>
-                        </Nav>
-                </Navbar>
-
                 <Navbar className="main-nav" light expand="md">
                     <LinkContainer to="/">
                         <NavbarBrand>Demographics</NavbarBrand>
@@ -56,8 +67,8 @@ class App extends Component {
                             <LinkContainer to="/places/estates">
                                 <NavItem className="btn places-btn" role="button">Places</NavItem>
                             </LinkContainer>
-                            <LinkContainer to="/titles">
-                                <NavItem className="btn titles-btn" role="button">Titles</NavItem>
+                            <LinkContainer to="/timeline">
+                                <NavItem className="btn titles-btn" role="button">Timeline</NavItem>
                             </LinkContainer>
                         </Nav>
                     </Collapse>
@@ -69,4 +80,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        currentDate: state.currentDate,
+        hasErrored: state.currentDateHasErrored,
+        isLoading: state.currentDateIsLoading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchData: (url) => dispatch(currentDateFetchData(url))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

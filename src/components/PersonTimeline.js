@@ -3,9 +3,10 @@ import Timeline from 'react-visjs-timeline'
 
 import '../css/timeline.css'
 
-import { friendlyDate, getYear, subtractOneDay } from '../utils/dates'
+import { getYear, subtractOneDay } from '../utils/dates'
 import { formatPlaceName } from '../utils/places'
 import { titleCase } from '../utils/strings'
+import { createTimelineEntry } from '../utils/timelines'
 
 class PersonTimeline extends Component {
 
@@ -103,7 +104,7 @@ class PersonTimeline extends Component {
                 if (!groups.find(function(element) { return element.id === groupId})) {
                     groups.push({id: groupId, content: titleCase(entry.category), order: order++})
                 }
-                items.unshift(this.createTimelineEntry(entry, groupId))
+                items.unshift(createTimelineEntry(entry, groupId))
             }
         }
 
@@ -142,25 +143,6 @@ class PersonTimeline extends Component {
       }
       obj.title = obj.content
       return obj
-    }
-
-    createTimelineEntry(entry, groupId) {
-        var obj = {
-            start: entry.fromDate,
-            content: entry.content,
-            group: groupId,
-            className: 'timeline-entry'
-        }
-        obj.title = entry.title == null ? entry.content : entry.title
-
-        if (entry.toDate == null) {
-            obj.type = 'point'
-            obj.title += ` (${friendlyDate(entry.fromDate)})`
-        } else {
-            obj.end = subtractOneDay(entry.toDate)
-            obj.title += ` (${friendlyDate(entry.fromDate)} - ${friendlyDate(entry.toDate)})`
-        }
-        return obj
     }
 
     createResidenceSpan(residence, groupId) {

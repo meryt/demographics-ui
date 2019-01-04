@@ -7,6 +7,8 @@ import { characters, charactersHasErrored, charactersIsLoading,
          relatives, relativesHasErrored, relativesIsLoading,
          person, personHasErrored, personIsLoading } from './persons'
 import { places, placesHasErrored, placesIsLoading } from './places'
+import { currentDate, currentDateHasErrored, currentDateIsLoading,
+         timeline, timelineHasErrored, timelineIsLoading } from './timeline'
 import { title, titleHasErrored, titleIsLoading,
          titles, titlesHasErrored, titlesIsLoading } from './titles'
 import { town, townHasErrored, townIsLoading } from './towns'
@@ -15,6 +17,9 @@ export default combineReducers({
     characters,
     charactersHasErrored,
     charactersIsLoading,
+    currentDate,
+    currentDateIsLoading,
+    currentDateHasErrored,
     descendants,
     descendantsHasErrored,
     descendantsIsLoading,
@@ -36,6 +41,9 @@ export default combineReducers({
     relatives,
     relativesHasErrored,
     relativesIsLoading,
+    timeline,
+    timelineHasErrored,
+    timelineIsLoading,
     title,
     titleHasErrored,
     titleIsLoading,
