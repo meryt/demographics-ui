@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 import { estate, estateHasErrored, estateIsLoading } from './estates'
 import { house, houseHasErrored, houseIsLoading } from './houses'
 import { parish, parishHasErrored, parishIsLoading } from './parishes'
@@ -13,7 +14,10 @@ import { title, titleHasErrored, titleIsLoading,
          titles, titlesHasErrored, titlesIsLoading } from './titles'
 import { town, townHasErrored, townIsLoading } from './towns'
 
-export default combineReducers({
+export default (history) => combineReducers({
+
+    router: connectRouter(history),
+
     characters,
     charactersHasErrored,
     charactersIsLoading,

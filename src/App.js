@@ -16,7 +16,7 @@ import { renderDefaultTitle } from './utils/pages'
 import { currentDateFetchData } from './actions/timeline'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './css/App.css'
+import './css/App.scss'
 
 import Routes from './Routes'
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Timeline from 'react-visjs-timeline'
 import moment from 'moment'
 
-import '../css/timeline.css'
+import '../css/timeline.scss'
 
 import { timelineFetchData } from '../actions/timeline'
 

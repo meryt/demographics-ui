@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Timeline from 'react-visjs-timeline'
 
-import '../css/timeline.css'
+import '../css/timeline.scss'
 
 import { getYear, subtractOneDay } from '../utils/dates'
 import { formatPlaceName } from '../utils/places'
