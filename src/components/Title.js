@@ -7,6 +7,7 @@ import {
 import { titleFetchData } from '../actions/title'
 import { titleCase, enumToText } from '../utils/strings'
 import { friendlyDate } from '../utils/dates'
+import { renderDefaultTitle } from '../utils/pages'
 import { renderPersonLink } from '../utils/persons'
 
 class Title extends Component {
@@ -39,9 +40,15 @@ class Title extends Component {
             title.titleHolders = []
         }
 
+        var titleDisplayName = title.name
+        if (title.extinct) {
+            titleDisplayName += ' (extinct)'
+        }
+
         return (
             <div className="inner-content">
-            <h2>{title.name} {(title.extinct) && '(extinct)'}</h2>
+            { renderDefaultTitle(titleDisplayName) }
+            <h2>{titleDisplayName}</h2>
             {(title.abeyanceCheckDate != null) && <p>(in abeyance until at least { friendlyDate(title.abeyanceCheckDate) })</p> }
             <p>Peerage: {titleCase(enumToText(title.peerage))}</p>
             <p>Class: {title.socialClass}</p>

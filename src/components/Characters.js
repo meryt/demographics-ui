@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { charactersFetchData } from '../actions/person'
 
+import { renderDefaultTitle } from '../utils/pages'
 import { renderTableOfPersons } from '../utils/persons'
 
 class Characters extends Component {
@@ -22,7 +23,12 @@ class Characters extends Component {
             return <p>no characters found</p>
         }
 
-        return renderTableOfPersons(this.props.characters)
+        return (
+            <div>
+                { renderDefaultTitle('Characters') }
+                { renderTableOfPersons(this.props.characters) }
+            </div>
+        )
     }
 
 }

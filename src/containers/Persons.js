@@ -13,6 +13,7 @@ import TitleList from '../components/TitleList'
 import Title from '../components/Title'
 
 import '../css/Persons.css'
+import { renderDefaultTitle } from '../utils/pages'
 
 export default class Persons extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ export default class Persons extends Component {
 
         return (
             <div>
+                { renderDefaultTitle('People') }
                 <header>People</header>
                 <div className="main-content persons">
                     <Navbar className="sub-nav" expand="md">

@@ -8,8 +8,9 @@ import {
 import { placesFetchData } from '../actions/places'
 
 import { friendlyDate } from '../utils/dates'
+import { renderDefaultTitle } from '../utils/pages'
 import { renderPlaceLink } from '../utils/places'
-import { formatNumber } from '../utils/strings'
+import { formatNumber, titleCase } from '../utils/strings'
 import { renderPersonLink, renderPersonTitles } from '../utils/persons'
 
 class Estates extends Component {
@@ -111,7 +112,8 @@ class Estates extends Component {
 
     return (
         <div className="inner-content">
-            <h2>Estates</h2>
+            { renderDefaultTitle(titleCase(this.props.type)) }
+            <h2>{ titleCase(this.props.type) }</h2>
 
             <Table>
                 {this.props.estates.map((estate) => ( this.renderEstateRows(estate) ))}

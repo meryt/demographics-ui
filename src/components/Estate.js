@@ -12,6 +12,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { estateFetchData } from '../actions/estate'
 import PlaceOwners from './PlaceOwners'
 import PlaceResidents from './PlaceResidents'
+import { renderDefaultTitle } from '../utils/pages'
 import { renderTableOfDwellings } from '../utils/places'
 import { formatNumber } from '../utils/strings'
 
@@ -53,6 +54,7 @@ class Estate extends Component {
 
         return (
             <div>
+                { renderDefaultTitle(`${this.props.estate.name}, ${this.props.estate.location}`) }
                 <div className="inner-content">
                     <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
                     <p>Estate value: { formatNumber(this.props.estate.value) }</p>

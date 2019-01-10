@@ -16,6 +16,8 @@ import Estates from '../components/Estates'
 import Farm from '../components/Farm'
 import Town from '../components/Town'
 
+import { renderDefaultTitle } from '../utils/pages'
+
 import '../css/Places.css'
 
 export default class Places extends Component {
@@ -37,6 +39,7 @@ export default class Places extends Component {
     render() {
         return (
             <div>
+                { renderDefaultTitle('Places') }
                 <header>Places</header>
                 <div className="main-content places">
                     <Navbar className="sub-nav" expand="md">

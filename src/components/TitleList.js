@@ -5,6 +5,7 @@ import {
     Table
 } from 'reactstrap'
 import { titlesFetchData } from '../actions/titles'
+import { renderDefaultTitle } from '../utils/pages'
 import { renderPersonLink, renderPersonTitles } from '../utils/persons'
 import { friendlyDate } from '../utils/dates'
 
@@ -70,6 +71,7 @@ class TitleList extends Component {
 
     return (
         <div className="inner-content">
+            { renderDefaultTitle('Titles') }
             <h2>Titles</h2>
             <Table>
                 <thead>

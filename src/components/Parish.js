@@ -14,6 +14,7 @@ import { parishFetchData } from '../actions/parish'
 import PlaceOccupations from './PlaceOccupations'
 import PlaceResidents from './PlaceResidents'
 import { friendlyAge } from '../utils/dates'
+import { renderDefaultTitle } from '../utils/pages'
 import { friendlyClass, renderPersonLink } from '../utils/persons'
 import { renderPlaceLink, renderTableOfDwellings } from '../utils/places'
 import { formatNumber } from '../utils/strings'
@@ -149,6 +150,7 @@ class Parish extends Component {
 
         return (
             <div>
+                { renderDefaultTitle(`${this.props.parish.name}, ${this.props.parish.location}`) }
                 <div className="inner-content">
                     <h2>{this.props.parish.name}, {this.props.parish.location}</h2>
                     <p>Square miles: {this.props.parish.squareMiles}</p>

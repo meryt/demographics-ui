@@ -11,6 +11,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { townFetchData } from '../actions/towns'
 import PlaceResidents from './PlaceResidents'
+
+import { renderDefaultTitle } from '../utils/pages'
 import { placeTypeToPathType, renderTableOfDwellings } from '../utils/places'
 
 class Town extends Component {
@@ -55,6 +57,7 @@ class Town extends Component {
 
         return (
             <div>
+                { renderDefaultTitle(`${this.props.town.name}, ${this.props.town.location}`) }
                 <div className="inner-content">
                     <h2>{this.props.town.name}</h2>
 

@@ -11,6 +11,8 @@ import {
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
+import { friendlyDate } from './utils/dates'
+import { renderDefaultTitle } from './utils/pages'
 import { currentDateFetchData } from './actions/timeline'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -53,28 +55,32 @@ class App extends Component {
 
     return (
         <div>
-            <div className="above-app" />
+            { renderDefaultTitle() }
             <div className="App container">
-                <Navbar className="main-nav" light expand="md">
-                    <LinkContainer to="/">
-                        <NavbarBrand>Demographics</NavbarBrand>
-                    </LinkContainer>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className="ml-auto" navbar>
-                            <LinkContainer to="/persons">
-                                <NavItem className="btn people-btn" role="button">People</NavItem>
-                            </LinkContainer>
-                            <LinkContainer to="/places/estates">
-                                <NavItem className="btn places-btn" role="button">Places</NavItem>
-                            </LinkContainer>
-                            <LinkContainer to="/timeline">
-                                <NavItem className="btn titles-btn" role="button">Timeline</NavItem>
-                            </LinkContainer>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
+                <div className="navbar-container">
+                    <Navbar className="main-nav" light expand="md">
+                        <LinkContainer to="/">
+                            <NavbarBrand>Demographics</NavbarBrand>
+                        </LinkContainer>
+                        <NavbarToggler onClick={this.toggle} />
+                        <Collapse isOpen={this.state.isOpen} navbar>
+                            <Nav className="ml-auto" navbar>
+                                <LinkContainer to="/persons">
+                                    <NavItem className="btn people-btn" role="button">People</NavItem>
+                                </LinkContainer>
+                                <LinkContainer to="/places/estates">
+                                    <NavItem className="btn places-btn" role="button">Places</NavItem>
+                                </LinkContainer>
+                                <LinkContainer to="/timeline">
+                                    <NavItem className="btn titles-btn" role="button">Timeline</NavItem>
+                                </LinkContainer>
+                                <NavItem className="current-date btn">{ friendlyDate(this.props.currentDate) }</NavItem>
+                            </Nav>
+                        </Collapse>
+                    </Navbar>
+                </div>
                 <Routes />
+
             </div>
         </div>
     );

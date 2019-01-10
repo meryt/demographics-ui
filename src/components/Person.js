@@ -22,8 +22,9 @@ import PersonResidences from './PersonResidences'
 import PersonProperty from './PersonProperty'
 import PersonTimeline from './PersonTimeline'
 
-import { formatNumber } from '../utils/strings'
+import { pageTitleFromPerson } from '../utils/pages'
 import { renderPersonTitles } from '../utils/persons'
+import { formatNumber } from '../utils/strings'
 
 class Person extends Component {
     constructor(props) {
@@ -85,6 +86,8 @@ class Person extends Component {
 
     return (
       <div>
+        {this.props.person.firstName != null && pageTitleFromPerson(this.props.person) }
+
         <div className="inner-content">
             <h2>{this.props.person.firstName} {this.props.person.lastName}</h2>
             {this.props.person.titles != null && <p>{ renderPersonTitles(this.props.person) }</p> }

@@ -1,3 +1,17 @@
+.timeline-component .vis-range {
+    background-color: #76d0e2;
+    border-color: #60abba;
+}
+
+.timeline-component .vis-dot, .personTimeline .vis-dot {
+    border-color: #60abba;
+}
+
+.personTimeline .vis-range {
+  background-color: #02c39a;
+  border-color: #00a896;
+}
+
 .vis-item.vis-range .vis-item-content {
     overflow-x: hidden;
     text-overflow: ellipsis;

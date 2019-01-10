@@ -13,6 +13,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { houseFetchData } from '../actions/houses'
 import PlaceOwners from './PlaceOwners'
 import { friendlyAge, friendlyDate } from '../utils/dates'
+import { renderDefaultTitle } from '../utils/pages'
 import { placeTypeToPathType } from '../utils/places'
 import { friendlyClass } from '../utils/persons'
 import { formatNumber } from '../utils/strings'
@@ -126,6 +127,7 @@ class House extends Component {
 
         return (
             <div>
+                { renderDefaultTitle(this.renderHouseName(this.props.house)) }
                 <div className="inner-content">
                     <h2>{ this.renderHouseName(this.props.house) }</h2>
 

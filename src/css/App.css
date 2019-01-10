@@ -36,9 +36,14 @@ a:hover {
     color: #fa0;
 }
 
+.navbar-container {
+    background-color: black;
+    padding: 0;
+    height: 40px;
+}
+
 .main-nav {
     padding: 0;
-    background-color: black;
 }
 
 .main-nav .btn {
@@ -53,6 +58,17 @@ a:hover {
 
 .main-nav .nav-item:hover {
     color: #fa0;
+}
+
+.current-date.btn {
+    font-size: 10pt;
+    padding-top: 9px;
+    text-transform: none;
+    color: #248478;
+}
+
+.current-date.btn:hover {
+    color: #248478;
 }
 
 .sub-nav {
@@ -81,7 +97,7 @@ div.main-content {
 
 header {
     font-size: 3em;
-    padding: 3em 40px 0;
+    padding: 2em 40px 0;
     color: white;
     text-shadow: 2px 2px 4px #00000099;
 }
@@ -89,12 +105,6 @@ header {
 div.inner-content {
     padding: 40px;
 }
-
-.personTimeline .vis-item {
-  background-color: #02c39a;
-  border-color: #00a896;
-}
-
 
 .sub-nav {
     background-color: black;

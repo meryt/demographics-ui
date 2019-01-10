@@ -12,7 +12,21 @@ import { createTimelineEntry, timelineCategoryToGroupName } from '../utils/timel
 class TimelineComponent extends Component {
 
     componentDidMount() {
-        this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT`)
+        this.fetchTimeline(this.props.type)
+    }
+
+    fetchTimeline(type) {
+        if (type === 'storylines') {
+            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT&includeStorylines=true`)
+        } else {
+            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT`)
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.type !== prevProps.type) {
+            this.fetchTimeline(this.props.type)
+        }
     }
 
     render() {
@@ -42,7 +56,7 @@ class TimelineComponent extends Component {
               }
           }
         }
-        
+
         if (this.props.currentDate != null) {
             let cd = moment(this.props.currentDate)
             options.start = cd.subtract(3, 'years').format('YYYY-MM-DD')
@@ -56,15 +70,30 @@ class TimelineComponent extends Component {
 
         for (var m = 0; m < this.props.entries.length; m++) {
             var entry = this.props.entries[m]
-            var groupId = `timeline-group-${entry.category}`
-            if (!groups.find(function(element) { return element.id === groupId})) {
-                groups.push({id: groupId, content: timelineCategoryToGroupName(entry.category), order: order++})
+            var groupId
+            if (this.props.type === 'storylines' && entry.storylines != null && entry.storylines.length > 0) {
+                // Add an entry to a separate group for each storyline
+                for (var n = 0; n < entry.storylines.length; n++) {
+                    var storyline = entry.storylines[n]
+                    var storylineGroupId = 'storyline-' + storyline.id
+                    if (!groups.find(function(element) { return element.id === storylineGroupId })) {
+                        groups.push({ id: storylineGroupId, content: storyline.name, order: order++ })
+                    }
+                    items.unshift(createTimelineEntry(entry, storylineGroupId))
+                }
             }
-            items.unshift(createTimelineEntry(entry, groupId))
+            if (entry.category !== 'STORY' || (this.props.type !== 'storylines' || entry.storylines == null || entry.storylines.length === 0)) {
+                // Add an entry to the group according to the category
+                groupId = `timeline-group-${entry.category}`
+                if (!groups.find(function(element) { return element.id === groupId})) {
+                    groups.push({id: groupId, content: timelineCategoryToGroupName(entry.category), order: order++})
+                }
+                items.unshift(createTimelineEntry(entry, groupId))
+            }
         }
 
         return (
-            <div className="inner-content">
+            <div className="inner-content timeline-component">
                 <Timeline options={options} items={items} groups={groups} />
             </div>
         )
