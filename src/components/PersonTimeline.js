@@ -6,7 +6,7 @@ import '../css/timeline.scss'
 import { getYear, subtractOneDay } from '../utils/dates'
 import { formatPlaceName } from '../utils/places'
 import { titleCase } from '../utils/strings'
-import { createTimelineEntry } from '../utils/timelines'
+import { createTimelineEntry, formatNameAndDatesForPerson } from '../utils/timelines'
 
 class PersonTimeline extends Component {
 
@@ -109,15 +109,11 @@ class PersonTimeline extends Component {
         }
 
         return (
-            <div className="inner-content personTimeline">
+            <div className="inner-content personTimeline timeline-component">
                 <h3>Timeline</h3>
                 <Timeline options={options} items={items} groups={groups} />
             </div>
         )
-    }
-
-    formatNameAndDates(person) {
-      return `<a href="/persons/${person.id}/timeline">${person.firstName} ${person.lastName} (${getYear(person.birthDate)} - ${getYear(person.deathDate)})</a>`
     }
 
     createPersonLifespanItem(person, groupId, gender) {
@@ -125,7 +121,7 @@ class PersonTimeline extends Component {
       var obj = {
           start: person.birthDate,
           end: person.deathDate,
-          content: this.formatNameAndDates(person),
+          content: formatNameAndDatesForPerson(person),
           group: groupId,
           className: `timeline-person-${gen}`
       }

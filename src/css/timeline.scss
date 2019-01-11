@@ -1,49 +1,51 @@
-.timeline-component .vis-range {
-    background-color: #76d0e2;
-    border-color: #60abba;
-}
+.timeline-component {
 
-.timeline-component .vis-dot, .personTimeline .vis-dot {
-    border-color: #60abba;
-}
+    .vis-item {
 
-.personTimeline .vis-range {
-  background-color: #02c39a;
-  border-color: #00a896;
-}
+        &.vis-dot {
+            border-color: #60abba;
+        }
 
-.vis-item.vis-range .vis-item-content {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
+        &.vis-range {
+            background-color: #76d0e2;
+            border-color: #60abba;
+        }
 
-.vis-item.timeline-title {
-  background-color: #ffa002;
-  border-color: #df7000;
-}
+        &.timeline-person-MALE {
+          background-color: #63b1ff;
+          border-color: #2b5ea0;
+        }
 
-.vis-item.timeline-residence {
-  background-color: #64c4b8;
-  border-color: #349488;
-}
+        &.timeline-person-FEMALE {
+          background-color: #ff979f;
+          border-color: #cf676f;
+        }
 
-.vis-item.timeline-person-MALE {
-  background-color: #63b1ff;
-  border-color: #2b5ea0;
-}
+        &.timeline-title {
+          background-color: #ffa002;
+          border-color: #df7000;
+        }
 
-.vis-item.timeline-person-FEMALE {
-  background-color: #ff979f;
-  border-color: #cf676f;
-}
+        &.timeline-residence {
+          background-color: #64c4b8;
+          border-color: #349488;
+        }
 
-.vis-item-content a {
-    text-decoration: none;
-    color: #000;
-}
+        .vis-item-content {
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            display: block;
 
-.vis-item-content a:hover {
-    text-decoration: underline;
-    color: #000;
+            a {
+                text-decoration: none;
+                color: #000;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: #000;
+                }
+            }
+        }
+    }
+
 }

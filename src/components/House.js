@@ -12,6 +12,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { houseFetchData } from '../actions/houses'
 import PlaceOwners from './PlaceOwners'
+import PlaceResidents from './PlaceResidents'
+
 import { friendlyAge, friendlyDate } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
 import { placeTypeToPathType } from '../utils/places'
@@ -46,7 +48,6 @@ class House extends Component {
 
         return (
             <tbody key={`household-${household.id}`}>
-
                 <tr>
                     <td colSpan="4">Household { household.id }</td>
                 </tr>
@@ -165,12 +166,16 @@ class House extends Component {
                         <LinkContainer to={`/places/houses/${this.props.house.id}/owners`}>
                             <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
                         </LinkContainer>
+                        <LinkContainer to={`/places/houses/${this.props.house.id}/residents`}>
+                            <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
+                        </LinkContainer>
                     </Nav>
                 </Collapse>
             </Navbar>
 
             <Switch>
                 <Route path="/places/houses/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.house.id} place={this.props.house} /> } />
+                <Route path="/places/houses/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.house.id} place={this.props.house} /> } />
             </Switch>
 
             </div>
