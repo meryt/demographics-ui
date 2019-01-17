@@ -1,3 +1,6 @@
+$link-color: #248478;
+$highlight: #fcd0a4;
+
 body {
     background-color: black;
     color: white;
@@ -8,7 +11,7 @@ body {
 }
 
 a {
-    color: #248478;
+    color: $link-color;
 }
 
 a:hover {
@@ -40,6 +43,11 @@ a:hover {
     background-color: black;
     padding: 0;
     height: 40px;
+}
+
+nav.navbar + table.table {
+    margin: 0 40px;
+    width: calc(100% - 80px);
 }
 
 .main-nav {
@@ -120,6 +128,24 @@ div.inner-content {
 
 .personAncestors td {
     vertical-align: middle;
+}
+
+svg polygon.assigned {
+    fill: $link-color;
+}
+
+svg polygon.unassigned {
+    fill: #fdfdfd;
+    stroke: #f3f3f3;
+}
+
+svg polygon.selected {
+    fill: $highlight;
+}
+
+svg polygon.ruined {
+    fill: #ccc;
+    stroke: #999;
 }
 
 /* Small Devices, Tablets */

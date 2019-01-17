@@ -1,15 +1,30 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
     Table
 } from 'reactstrap'
+
+import { townSelectDwelling } from '../actions/towns'
+
+import { friendlyAge } from '../utils/dates'
 import { renderPersonLink } from '../utils/persons'
+import { renderPlaceLink } from '../utils/places'
 
 class PlaceOccupations extends Component {
 
+    constructor(props) {
+        super(props)
+
+        this.clickRow = this.clickRow.bind(this)
+    }
+
     renderPersonRow(person) {
         return (
-            <tr key={ `occ-person-${person.id}` }>
+            <tr key={ `occ-person-${person.id}` } id={ `row-person-${person.id}-dwelling-${person.dwelling.id}`}
+                className={ (person.dwelling.id === Number(this.props.selectedPlaceId)) ? 'table-active' : '' } onClick={ this.clickRow }>
                 <td>{ renderPersonLink(person) }</td>
+                <td>{ friendlyAge(person.age) }</td>
+                <td>{ renderPlaceLink(person.dwelling) }</td>
             </tr>
         )
     }
@@ -22,7 +37,7 @@ class PlaceOccupations extends Component {
         return (
             <tbody key={ `occupation-${name}` }>
                 <tr>
-                    <th>{ name }</th>
+                    <th colSpan="3">{ name }</th>
                 </tr>
                 { people.map((person) => this.renderPersonRow(person)) }
             </tbody>
@@ -43,7 +58,7 @@ class PlaceOccupations extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th colSpan="3">Name</th>
                         </tr>
                     </thead>
                         { Object.entries(this.props.place.occupations).map((entry) => this.renderOccupationRows(entry[0], entry[1])) }
@@ -51,6 +66,46 @@ class PlaceOccupations extends Component {
             </div>
         )
     }
+
+    clickRow(e) {
+        if (this.props.updateStateOnClick) {
+            if (e.target.tagName === 'A') {
+                return
+            }
+            var row = e.target
+            if (row.tagName === 'TD') {
+                row = e.target.parentNode
+            }
+            let dwellingId = row.id.replace(/.*-(\d+)$/, "dwelling-$1")
+            console.log('attempting to select dwelling ' + dwellingId)
+            this.props.selectDwelling(dwellingId)
+        }
+    }
 }
 
-export default PlaceOccupations
+const mapStateToProps = (state) => {
+
+    let elementId = state.townSelectedDwelling
+    let selectedPlaceId = null
+    if (elementId != null) {
+        if (!elementId.startsWith('polygon-')) {
+            const regex = /.*-(\d+)$/
+            let match = regex.exec(elementId)
+            if (match != null && match.length >= 2) {
+                selectedPlaceId = match[1]
+            }
+        }
+    }
+
+    return {
+        selectedPlaceId: selectedPlaceId
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        selectDwelling: (id) => dispatch(townSelectDwelling(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceOccupations)

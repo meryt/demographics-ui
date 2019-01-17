@@ -10,10 +10,10 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { estateFetchData } from '../actions/estate'
+import PlaceChildPlaces from './PlaceChildPlaces'
 import PlaceOwners from './PlaceOwners'
 import PlaceResidents from './PlaceResidents'
 import { renderDefaultTitle } from '../utils/pages'
-import { renderTableOfDwellings } from '../utils/places'
 import { formatNumber } from '../utils/strings'
 
 class Estate extends Component {
@@ -59,14 +59,15 @@ class Estate extends Component {
                     <h2>{this.props.estate.name}, {this.props.estate.location}</h2>
                     <p>Estate value: { formatNumber(this.props.estate.value) }</p>
                     <p>Estate size: { formatNumber(Math.round(this.props.estate.acres)) } acres</p>
-
-                    { renderTableOfDwellings(this.props.estate.places) }
                 </div>
 
 
                 <Navbar color="light" light expand="md">
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+                            <LinkContainer to={`/places/estates/${this.props.estate.id}/houses`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Houses</NavItem>
+                            </LinkContainer>
                             <LinkContainer to={`/places/estates/${this.props.estate.id}/owners`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
                             </LinkContainer>
@@ -78,6 +79,7 @@ class Estate extends Component {
                 </Navbar>
 
                 <Switch>
+                    <Route path="/places/estates/:id/houses" render={ (props) => <PlaceChildPlaces {...props} id={this.props.estate.id} childPlaceType="DWELLING" place={this.props.estate} /> } />
                     <Route path="/places/estates/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.estate.id} place={this.props.estate} /> } />
                     <Route path="/places/estates/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.estate.id} place={this.props.estate} /> } />
                 </Switch>

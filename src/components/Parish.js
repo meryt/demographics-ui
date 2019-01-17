@@ -11,12 +11,13 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { parishFetchData } from '../actions/parish'
+import PlaceChildPlaces from './PlaceChildPlaces'
 import PlaceOccupations from './PlaceOccupations'
 import PlaceResidents from './PlaceResidents'
 import { friendlyAge } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
 import { friendlyClass, renderPersonLink } from '../utils/persons'
-import { renderPlaceLink, renderTableOfDwellings } from '../utils/places'
+import { renderPlaceLink } from '../utils/places'
 import { formatNumber } from '../utils/strings'
 
 class Parish extends Component {
@@ -38,73 +39,6 @@ class Parish extends Component {
 
     componentDidMount() {
         this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.parishId}?onDate=current`)
-    }
-
-    renderChildPlaces(placeType) {
-        if (this.props.isLoading || this.props.parish.places == null) {
-            return null
-        }
-
-        let type = placeType.toLowerCase()
-
-        if (placeType === 'DWELLING') {
-            return renderTableOfDwellings(this.props.parish.places.filter(p => p.type === placeType))
-        }
-
-        if (placeType === 'FARM') {
-            return renderTableOfDwellings(this.props.parish.places.filter(p => p.type === placeType))
-        }
-
-        return (
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Population</th>
-                    </tr>
-                </thead>
-                <tbody>
-            { this.props.parish.places.filter(p => p.type === placeType).map((p) => (
-                <tr key={`${type}-${p.id}`}>
-                    <td>{ renderPlaceLink(p) }</td>
-                    <td>{ p.totalPopulation }</td>
-                </tr>
-            ))}
-                </tbody>
-            </Table>
-        )
-    }
-
-    renderEstates() {
-        if (this.props.isLoading || this.props.parish.places == null) {
-            return null
-        }
-
-        let placeType = 'ESTATE'
-        let type = placeType.toLowerCase()
-
-        return (
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th>Acres</th>
-                        <th>Population</th>
-                    </tr>
-                </thead>
-                <tbody>
-            { this.props.parish.places.filter(p => p.type === placeType).map((p) => (
-                <tr key={`${type}-${p.id}`}>
-                    <td>{ renderPlaceLink(p) }</td>
-                    <td>{ formatNumber(p.value) }</td>
-                    <td>{ formatNumber(Math.round(p.acres)) }</td>
-                    <td>{ p.totalPopulation }</td>
-                </tr>
-            ))}
-                </tbody>
-            </Table>
-        )
     }
 
     renderLeadingHouseholds() {
@@ -160,23 +94,23 @@ class Parish extends Component {
 
                     <h3>Leading Households</h3>
                     { this.renderLeadingHouseholds() }
-
-                    <h3>Towns</h3>
-                    { this.renderChildPlaces('TOWN') }
-
-                    <h3>Estates</h3>
-                    { this.renderEstates() }
-
-                    <h3>Farms</h3>
-                    { this.renderChildPlaces('FARM') }
-
-                    <h3>Houses</h3>
-                    { this.renderChildPlaces('DWELLING') }
                 </div>
 
-                <Navbar color="light" light expand="md">
+                <Navbar color="dark" dark expand="md">
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/estates`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Estates</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/towns`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Towns</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/farms`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Farms</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/parishes/${this.props.parish.id}/houses`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Houses</NavItem>
+                            </LinkContainer>
                             <LinkContainer to={`/places/parishes/${this.props.parish.id}/occupations`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Occupations</NavItem>
                             </LinkContainer>
@@ -188,6 +122,10 @@ class Parish extends Component {
                 </Navbar>
 
                 <Switch>
+                    <Route path="/places/parishes/:id/estates" render={ (props) => <PlaceChildPlaces {...props} id={this.props.parish.id} childPlaceType="ESTATE" place={this.props.parish} /> } />
+                    <Route path="/places/parishes/:id/towns" render={ (props) => <PlaceChildPlaces {...props} id={this.props.parish.id} childPlaceType="TOWN" place={this.props.parish} /> } />
+                    <Route path="/places/parishes/:id/farms" render={ (props) => <PlaceChildPlaces {...props} id={this.props.parish.id} childPlaceType="FARM" place={this.props.parish} /> } />
+                    <Route path="/places/parishes/:id/houses" render={ (props) => <PlaceChildPlaces {...props} id={this.props.parish.id} childPlaceType="DWELLING" place={this.props.parish} /> } />
                     <Route path="/places/parishes/:id/occupations" render={ (props) => <PlaceOccupations {...props} id={this.props.parish.id} place={this.props.parish} /> } />
                     <Route path="/places/parishes/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.parish.id} place={this.props.parish} /> } />
                 </Switch>

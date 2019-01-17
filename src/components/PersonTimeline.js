@@ -100,8 +100,8 @@ class PersonTimeline extends Component {
         if (person.timeline != null && person.timeline.length > 0) {
             for (var m = 0; m < person.timeline.length; m++) {
                 var entry = person.timeline[m]
-                var groupId = `timeline-group-${entry.category}`
-                if (!groups.find(function(element) { return element.id === groupId})) {
+                let groupId = `timeline-group-${entry.category}`
+                if (!groups.find(element => element.id === groupId)) {
                     groups.push({id: groupId, content: titleCase(entry.category), order: order++})
                 }
                 items.unshift(createTimelineEntry(entry, groupId))

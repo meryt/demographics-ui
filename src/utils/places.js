@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Table } from 'reactstrap'
 import { getYear } from './dates'
 import { titleCase } from './strings'
 
@@ -35,51 +34,9 @@ export function renderPlaceLink(place) {
         return null
     }
 
-    return <Link to={ `/places/${ placeTypeToPathType(place.type) }/${ place.id }` }>{ formatPlaceName(place) }</Link>
-}
-
-export function renderTableOfDwellings(dwellings) {
-
-    if (dwellings == null) {
-        return null
-    }
-
-    return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th>Built</th>
-                    <th>Owner</th>
-                    <th>Residents</th>
-                </tr>
-            </thead>
-            <tbody>
-            {
-                dwellings.map(p => _renderPlaceRow(p))
-            }
-            </tbody>
-        </Table>
-    )
-}
-
-function _renderPlaceRow(place) {
-    if (place == null) {
-        return null
-    }
-
-    return (
-        <tr key={`child-place-${place.id}`}>
-            <td><Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null
-                 ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i>
-                 : place.name }</Link></td>
-            <td>{ place.value }</td>
-            <td>{ getYear(place.foundedDate) }</td>
-            <td>{ renderPlaceOwner(place) }</td>
-            <td>{ place.totalPopulation }</td>
-        </tr>
-    )
+    return <Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null
+         ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i>
+         : place.name }</Link>
 }
 
 export function renderPlaceOwner(place) {
@@ -88,7 +45,7 @@ export function renderPlaceOwner(place) {
     }
 
     if (place.ruinedDate != null) {
-        return <i>Ruined</i>
+        return <i>Abandoned since { getYear(place.ruinedDate) }</i>
     }
 
     let owner = place.owner != null ? place.owner : (place.currentOwner != null ? place.currentOwner : null);
@@ -102,4 +59,28 @@ export function renderPlaceOwner(place) {
             <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>{owner.occupation != null && `, ${owner.occupation.name}`}
         </span>
     )
+}
+
+export function renderOwnerReason(reason) {
+    if (reason == null) {
+        return null
+    }
+
+    // Persons include an ID, a name, a comma, and a relationship, like "5 Boby Zozo, first cousin"
+    let match = reason.match(/([^\d]*)(\d+) ([^,]+)(,.*)/)
+    if (match != null && match.length > 1) {
+        let personId = match[2]
+        let personName = match[3]
+        return <span>{ match[1] }<Link to={`/persons/${personId}`}>{personName}</Link>{ match[4] }</span>
+    } else {
+        // Titles are just an ID followed by the name and nothing else
+        let titleMatch = reason.match(/([^\d]*)(\d+) (.*)/)
+        if (titleMatch != null && titleMatch.length > 1) {
+            let titleId = titleMatch[2]
+            let titleName = titleMatch[3]
+            return <span>{ titleMatch[1] }<Link to={`/titles/${titleId}`}>{titleName}</Link></span>
+        }
+
+        return <span>{ reason }</span>
+    }
 }

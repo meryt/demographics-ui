@@ -10,10 +10,13 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { townFetchData } from '../actions/towns'
+import PlaceChildPlaces from './PlaceChildPlaces'
+import PlaceOccupations from './PlaceOccupations'
 import PlaceResidents from './PlaceResidents'
+import Map from '../maps/Map'
 
 import { renderDefaultTitle } from '../utils/pages'
-import { placeTypeToPathType, renderTableOfDwellings } from '../utils/places'
+import { placeTypeToPathType } from '../utils/places'
 
 class Town extends Component {
 
@@ -43,7 +46,7 @@ class Town extends Component {
 
         let parent = place.parent
 
-        return <Link to={ `/places/${ placeTypeToPathType(parent.type) }/${ parent.id }` }>{parent.name}</Link>
+        return <Link to={ `/places/${ placeTypeToPathType(parent.type) }/${ parent.id }` }>{place.location}</Link>
     }
 
     render() {
@@ -59,29 +62,36 @@ class Town extends Component {
             <div>
                 { renderDefaultTitle(`${this.props.town.name}, ${this.props.town.location}`) }
                 <div className="inner-content">
-                    <h2>{this.props.town.name}</h2>
-
-                    <p>Town, located in { this.renderParentLocationLink(this.props.town) }</p>
+                    <h2>{this.props.town.name}, { this.renderParentLocationLink(this.props.town) }</h2>
 
                     <p>Population { this.props.town.totalPopulation }</p>
 
-                    { renderTableOfDwellings(this.props.town.places) }
+                    <Map town={ this.props.town } />
+
 
                 </div>
 
-            <Navbar color="light" light expand="md">
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                        <LinkContainer to={`/places/towns/${this.props.town.id}/residents?onDate=current`}>
-                            <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
-                        </LinkContainer>
-                    </Nav>
-                </Collapse>
-            </Navbar>
+                <Navbar color="light" light expand="md">
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <LinkContainer to={`/places/towns/${this.props.town.id}/houses`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Houses</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/towns/${this.props.town.id}/occupations`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Occupations</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/towns/${this.props.town.id}/residents?onDate=current`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
+                            </LinkContainer>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
 
-            <Switch>
-                <Route path="/places/towns/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.town.id} place={this.props.town} /> } />
-            </Switch>
+                <Switch>
+                    <Route path="/places/towns/:id/houses" render={ (props) => <PlaceChildPlaces {...props} id={this.props.town.id} childPlaceType="DWELLING" place={this.props.town} updateStateOnClick="true" /> } />
+                    <Route path="/places/towns/:id/occupations" render={ (props) => <PlaceOccupations {...props} id={this.props.town.id} place={this.props.town} updateStateOnClick="true" /> } />
+                    <Route path="/places/towns/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.town.id} place={this.props.town} /> } />
+                </Switch>
 
             </div>
         )
@@ -92,7 +102,7 @@ const mapStateToProps = (state) => {
     return {
         town: state.town,
         hasErrored: state.townHasErrored,
-        isLoading: state.townIsLoading
+        isLoading: state.townIsLoading,
     }
 }
 

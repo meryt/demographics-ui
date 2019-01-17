@@ -1,7 +1,8 @@
 import {
   TOWN_HAS_ERRORED,
   TOWN_IS_LOADING,
-  TOWN_FETCH_DATA_SUCCESS
+  TOWN_FETCH_DATA_SUCCESS,
+  TOWN_SELECT_DWELLING
 } from '../constants/action-types.js'
 
 export function townHasErrored(bool) {
@@ -45,4 +46,11 @@ export function townFetchData(url) {
       .then((town) => dispatch(townFetchDataSuccess(town)))
       .catch(() => dispatch(townHasErrored(true)))
   }
+}
+
+export function townSelectDwelling(dwellingId) {
+    return {
+        type: TOWN_SELECT_DWELLING,
+        selectedDwelling: dwellingId
+    }
 }

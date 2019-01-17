@@ -1,0 +1,13 @@
+import React, { Component } from 'react'
+
+class MapN extends Component {
+
+    render() {
+        return (
+
+        )
+    }
+
+}
+
+export default MapN

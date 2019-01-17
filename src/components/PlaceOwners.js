@@ -4,31 +4,12 @@ import {
     Table
 } from 'reactstrap'
 import { friendlyDate } from '../utils/dates'
+import { renderOwnerReason } from '../utils/places'
 
 class PlaceOwners extends Component {
 
     renderReason(reason) {
-        if (reason == null) {
-            return <td></td>
-        }
-
-        // Persons include an ID, a name, a comma, and a relationship, like "5 Boby Zozo, first cousin"
-        let match = reason.match(/([^\d]*)(\d+) ([^,]+)(,.*)/)
-        if (match != null && match.length > 1) {
-            let personId = match[2]
-            let personName = match[3]
-            return <td>{ match[1] }<Link to={`/persons/${personId}`}>{personName}</Link>{ match[4] }</td>
-        } else {
-            // Titles are just an ID followed by the name and nothing else
-            let titleMatch = reason.match(/([^\d]*)(\d+) (.*)/)
-            if (titleMatch != null && titleMatch.length > 1) {
-                let titleId = titleMatch[2]
-                let titleName = titleMatch[3]
-                return <td>{ titleMatch[1] }<Link to={`/titles/${titleId}`}>{titleName}</Link></td>
-            }
-
-            return <td>{ reason }</td>
-        }
+        return <td>{ renderOwnerReason(reason) }</td>
     }
 
     render() {

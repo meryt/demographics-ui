@@ -50,13 +50,13 @@ class TimelineComponent extends Component {
 
         for (var m = 0; m < this.props.entries.length; m++) {
             var entry = this.props.entries[m]
-            var groupId
+            let groupId
             if (this.props.type === 'storylines' && entry.storylines != null && entry.storylines.length > 0) {
                 // Add an entry to a separate group for each storyline
                 for (var n = 0; n < entry.storylines.length; n++) {
                     var storyline = entry.storylines[n]
-                    var storylineGroupId = 'storyline-' + storyline.id
-                    if (!groups.find(function(element) { return element.id === storylineGroupId })) {
+                    let storylineGroupId = 'storyline-' + storyline.id
+                    if (!groups.find(element => element.id === storylineGroupId)) {
                         groups.push({ id: storylineGroupId, content: storyline.name, order: order++ })
                     }
                     items.unshift(createTimelineEntry(entry, storylineGroupId))

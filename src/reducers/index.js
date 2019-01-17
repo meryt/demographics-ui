@@ -13,7 +13,7 @@ import { currentDate, currentDateHasErrored, currentDateIsLoading,
          timeline, timelineHasErrored, timelineIsLoading } from './timeline'
 import { title, titleHasErrored, titleIsLoading,
          titles, titlesHasErrored, titlesIsLoading } from './titles'
-import { town, townHasErrored, townIsLoading } from './towns'
+import { town, townHasErrored, townIsLoading, townSelectedDwelling } from './towns'
 
 export default (history) => combineReducers({
 
@@ -60,5 +60,6 @@ export default (history) => combineReducers({
     titlesIsLoading,
     town,
     townHasErrored,
-    townIsLoading
+    townIsLoading,
+    townSelectedDwelling
 })
