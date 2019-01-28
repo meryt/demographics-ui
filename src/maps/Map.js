@@ -12,6 +12,14 @@ import { townSelectDwelling } from '../actions/towns'
 import HouseInfo from '../components/HouseInfo'
 import Map1 from './Map1'
 import Map2 from './Map2'
+import Map3 from './Map3'
+import Map4 from './Map4'
+import Map5 from './Map5'
+import Map6 from './Map6'
+import Map7 from './Map7'
+import Map8 from './Map8'
+import Map9 from './Map9'
+import Map10 from './Map10'
 import { renderPlaceLink } from '../utils/places'
 
 class Map extends Component {
@@ -32,14 +40,15 @@ class Map extends Component {
     }
 
     findDwellingByPolygonId(polygonId) {
-        if (this.props.town === null || this.props.town.places === null || this.props.town.places.length === 0) {
+        if (this.props.town === null || this.props.town.places == null || this.props.town.places.length === 0) {
             return null
         }
         return this.props.town.places.find(d => d.mapId === polygonId)
     }
 
     classForPolygon(polygonId) {
-        if (this.props.town === null || this.props.town.places === null || this.props.town.places.length === 0) {
+
+        if (this.props.town === null || this.props.town.places == null || this.props.town.places.length === 0) {
             return 'unassigned'
         }
         let dwelling = this.props.town.places.find(d => d.mapId === polygonId)
@@ -50,7 +59,11 @@ class Map extends Component {
             if (dwelling.ruinedDate != null && dwelling.ruinedDate < this.props.currentDate) {
                 return 'ruined'
             } else {
-                return 'assigned'
+                if (dwelling.totalPopulation == null) {
+                    return 'empty'
+                } else {
+                    return 'assigned'
+                }
             }
         } else {
             return 'unassigned'
@@ -67,6 +80,14 @@ class Map extends Component {
             <div id="map-container">
                 { this.props.town.mapId === 'Map1' && <Map1 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
                 { this.props.town.mapId === 'Map2' && <Map2 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map3' && <Map3 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map4' && <Map4 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map5' && <Map5 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map6' && <Map6 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map7' && <Map7 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map8' && <Map8 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map9' && <Map9 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
+                { this.props.town.mapId === 'Map10' && <Map10 clickBuilding={ this.clickBuilding } classForPolygon={ this.classForPolygon } /> }
 
                 <div id="map-info">{ this.renderDwellingInfoFromId(this.props.selectedDwelling) }</div>
             </div>

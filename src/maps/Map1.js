@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 
+import { calculatePolygonAreas } from '../utils/maps'
+
 class Map1 extends Component {
 
+    // http://fantasycities.watabou.ru/?size=10&seed=1153772282&continuous=1&hub=1&random=0&citadel=0&plaza=1&temple=0&walls=0&shantytown=1&river=1&coast=0
     render() {
         return (
             <svg viewBox="35 10 200 130" xmlns="http://www.w3.org/2000/svg">

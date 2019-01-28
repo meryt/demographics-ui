@@ -1,0 +1,19 @@
+How to manipulate Medieval Fantasy City Generator SVG export files for use:
+
+1. Export from the UI in SVG mode (e.g. http://fantasycities.watabou.ru/?size=10&seed=1153772282&continuous=1&hub=1&random=0&citadel=0&plaza=1&temple=1&walls=0&shantytown=1&river=1&coast=0)
+2. tidy --wrap 0 --indent yes myfile.svg | sed -f ~/doc/projects/demographics-ui/util/fantasycity.sed > myfile-tidy.html
+3. Open the file in Firefox and tweak the viewBox values by eye so that the image is centered properly (using the first two values) and cropped properly (using the last two values).
+4. Make an incrementing ID for the polygons:
+    4.1. Install the "Increment Selection" plugin in Sublime text. (Package Control -> Install Package -> Increment Selection)
+    4.2. Use find to select an instance of "polygon-", then Alt+F3 to select all instances of the string.
+    4.3. Move the cursor to the right one click in order to unselect the word but leave the cursor after the dash on every line.
+    4.4. Type Ctrl+Alt+i to append an incrementing number at each cursor position, giving polygon-1, polygon-2, etc.
+    4.5. Click anywhere on the page to unselect.
+5. sed -f ~/doc/projects/demographics-ui/util/svg-to-js.sed myfile-tidy.html > myfile-svg.js
+6. Copy maps/map.js.template to MapN.js
+7. Edit MapN.js and copy-paste the entire contents of myfile-svg.js into the render function.
+8. Edit Map.js and import & conditionally load the new map.
+9. Set the map's ID as the map_id of a town so that you can view it. Navigate to that town.
+10. Open the console and inspect the values. If there are too few cheap houses, add a third parameter to the function for the max house price (default 5000) and tweak until the values look good.
+11. Copy all the lines listing the polygons with their value.
+12. Paste into a document and delete the " maps.js..." bit on each line

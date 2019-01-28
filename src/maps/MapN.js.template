@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
+import { calculatePolygonAreas } from '../utils/maps'
+
 class MapN extends Component {
+
+    componentDidMount() {
+        calculatePolygonAreas('MapN', document)
+    }
 
     render() {
         return (

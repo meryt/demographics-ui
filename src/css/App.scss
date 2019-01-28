@@ -148,6 +148,10 @@ svg polygon.ruined {
     stroke: #999;
 }
 
+svg polygon.empty {
+    fill: #b0c4c1;
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
     .main-nav .btn {
