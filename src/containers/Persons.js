@@ -7,10 +7,10 @@ import {
     NavItem
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import Person from '../components/Person'
-import Characters from '../components/Characters'
-import TitleList from '../components/TitleList'
-import Title from '../components/Title'
+import Person from '../pages/Person'
+import Characters from '../pages/Characters'
+import TitleList from '../pages/TitleList'
+import Title from '../pages/Title'
 
 import '../css/Persons.css'
 import { renderDefaultTitle } from '../utils/pages'

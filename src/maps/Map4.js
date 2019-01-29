@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import { calculatePolygonAreas } from '../utils/maps'
-
 class Map4 extends Component {
 
     // http://fantasycities.watabou.ru/?size=7&seed=1101935466&continuous=1&hub=1&random=0&citadel=0&plaza=1&temple=1&walls=0&shantytown=1&river=0&coast=0

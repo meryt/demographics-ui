@@ -35,7 +35,7 @@ export function renderPlaceLink(place) {
     }
 
     return <Link to={ `/places/${placeTypeToPathType(place.type)}/${place.id}` }>{ place.name == null
-         ? <i>{ place.type === 'DWELLING' ? 'House' : titleCase(place.type) }</i>
+         ? <i>{ place.type === 'DWELLING' ? `House ${place.id}` : titleCase(place.type) }</i>
          : place.name }</Link>
 }
 

@@ -11,8 +11,8 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { houseFetchData } from '../actions/houses'
-import PlaceOwners from './PlaceOwners'
-import PlaceResidents from './PlaceResidents'
+import PlaceOwners from '../components/PlaceOwners'
+import PlaceResidentsTimeline from '../components/PlaceResidentsTimeline'
 
 import { friendlyAge, friendlyDate } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
@@ -175,7 +175,7 @@ class House extends Component {
 
             <Switch>
                 <Route path="/places/houses/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.house.id} place={this.props.house} /> } />
-                <Route path="/places/houses/:id/residents" render={ (props) => <PlaceResidents {...props} id={this.props.house.id} place={this.props.house} /> } />
+                <Route path="/places/houses/:id/residents" render={ (props) => <PlaceResidentsTimeline {...props} id={this.props.house.id} place={this.props.house} /> } />
             </Switch>
 
             </div>

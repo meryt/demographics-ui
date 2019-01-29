@@ -8,13 +8,13 @@ import {
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import Estate from '../components/Estate'
-import House from '../components/House'
-import Parish from '../components/Parish'
+import Estate from '../pages/Estate'
+import House from '../pages/House'
+import Parish from '../pages/Parish'
 import PlaceList from '../components/PlaceList'
-import Estates from '../components/Estates'
-import Farm from '../components/Farm'
-import Town from '../components/Town'
+import Estates from '../pages/Estates'
+import Farm from '../pages/Farm'
+import Town from '../pages/Town'
 
 import { renderDefaultTitle } from '../utils/pages'
 

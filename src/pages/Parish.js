@@ -11,9 +11,9 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { parishFetchData } from '../actions/parish'
-import PlaceChildPlaces from './PlaceChildPlaces'
-import PlaceOccupations from './PlaceOccupations'
-import PlaceResidents from './PlaceResidents'
+import PlaceChildPlaces from '../components/PlaceChildPlaces'
+import PlaceOccupations from '../components/PlaceOccupations'
+import PlaceResidents from '../components/PlaceResidents'
 import { friendlyAge } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
 import { friendlyClass, renderPersonLink } from '../utils/persons'

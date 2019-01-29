@@ -10,9 +10,9 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { estateFetchData } from '../actions/estate'
-import PlaceChildPlaces from './PlaceChildPlaces'
-import PlaceOwners from './PlaceOwners'
-import PlaceResidents from './PlaceResidents'
+import PlaceChildPlaces from '../components/PlaceChildPlaces'
+import PlaceOwners from '../components/PlaceOwners'
+import PlaceResidents from '../components/PlaceResidents'
 import { renderDefaultTitle } from '../utils/pages'
 import { renderPlaceOwner } from '../utils/places'
 import { formatNumber } from '../utils/strings'

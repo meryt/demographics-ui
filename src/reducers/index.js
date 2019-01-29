@@ -8,7 +8,8 @@ import { characters, charactersHasErrored, charactersIsLoading,
          relatives, relativesHasErrored, relativesIsLoading,
          person, personHasErrored, personIsLoading } from './persons'
 import { places, placesHasErrored, placesIsLoading,
-         placeResidents, placeResidentsHasErrored, placeResidentsIsLoading } from './places'
+         placeResidents, placeResidentsHasErrored, placeResidentsIsLoading,
+         placeResidentsTimeline, placeResidentsTimelineHasErrored, placeResidentsTimelineIsLoading } from './places'
 import { currentDate, currentDateHasErrored, currentDateIsLoading,
          timeline, timelineHasErrored, timelineIsLoading } from './timeline'
 import { title, titleHasErrored, titleIsLoading,
@@ -46,6 +47,9 @@ export default (history) => combineReducers({
     placeResidents,
     placeResidentsHasErrored,
     placeResidentsIsLoading,
+    placeResidentsTimeline,
+    placeResidentsTimelineHasErrored,
+    placeResidentsTimelineIsLoading,
     relatives,
     relativesHasErrored,
     relativesIsLoading,

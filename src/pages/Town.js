@@ -10,9 +10,9 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { townFetchData } from '../actions/towns'
-import PlaceChildPlaces from './PlaceChildPlaces'
-import PlaceOccupations from './PlaceOccupations'
-import PlaceResidents from './PlaceResidents'
+import PlaceChildPlaces from '../components/PlaceChildPlaces'
+import PlaceOccupations from '../components/PlaceOccupations'
+import PlaceResidents from '../components/PlaceResidents'
 import Map from '../maps/Map'
 
 import { renderDefaultTitle } from '../utils/pages'
