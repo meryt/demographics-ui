@@ -4,9 +4,10 @@ import {
     Table
 } from 'reactstrap'
 
-import { descendantsFetchData } from '../actions/person'
+import { livingDescendantsFetchData } from '../actions/person'
 
-import { renderPersonLink } from '../utils/persons'
+import PersonLink from '../components/PersonLink'
+
 import { friendlyAge, friendlyDate } from '../utils/dates'
 
 class PersonDescendants extends Component {
@@ -42,7 +43,7 @@ class PersonDescendants extends Component {
                     <tbody>
                         { this.props.descendants.map(person => (
                             <tr key={ `descendant-${person.id}` }>
-                                <td>{ renderPersonLink(person) }</td>
+                                <td><PersonLink person={person} /></td>
                                 <td>{ friendlyDate(person.birthDate) }</td>
                                 <td>{ friendlyAge(person.age) }</td>
                                 <td>{ friendlyDate(person.deathDate) }</td>
@@ -57,15 +58,15 @@ class PersonDescendants extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        descendants: state.descendants,
-        hasErrored: state.descendantsHasErrored,
-        isLoading: state.descendantsIsLoading
+        descendants: state.livingDescendants,
+        hasErrored: state.livingDescendantsHasErrored,
+        isLoading: state.livingDescendantsIsLoading
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: (url) => dispatch(descendantsFetchData(url))
+        fetchData: (url) => dispatch(livingDescendantsFetchData(url))
     }
 }
 

@@ -5,19 +5,20 @@ import {
     Collapse,
     Navbar,
     Nav,
-    NavItem,
-    Table
+    NavItem
 } from 'reactstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { houseFetchData } from '../actions/houses'
+
+import HouseholdListTable from '../components/HouseholdListTable'
+import PersonLink from '../components/PersonLink'
 import PlaceOwners from '../components/PlaceOwners'
 import PlaceResidentsTimeline from '../components/PlaceResidentsTimeline'
 
-import { friendlyAge, friendlyDate } from '../utils/dates'
+import { friendlyDate } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
 import { placeTypeToPathType } from '../utils/places'
-import { friendlyClass } from '../utils/persons'
 import { formatNumber } from '../utils/strings'
 
 class House extends Component {
@@ -39,41 +40,6 @@ class House extends Component {
 
     componentDidMount() {
         this.props.fetchData(`http://localhost:8095/api/places/${this.props.match.params.houseId}?onDate=current`)
-    }
-
-    renderHouseholdRows(household) {
-        if (household == null) {
-            return null
-        }
-
-        return (
-            <tbody key={`household-${household.id}`}>
-                <tr>
-                    <td colSpan="4">Household { household.id }</td>
-                </tr>
-
-                { household.head != null && this.renderInhabitantRow(household.head) }
-
-                { household.inhabitants != null && household.inhabitants.map(person => this.renderInhabitantRow(person)) }
-
-            </tbody>
-        )
-    }
-
-    renderInhabitantRow(person) {
-        if (person == null) {
-            return null
-        }
-
-        return (
-            <tr key={ `household-inhabitant-${person.id}` }>
-                <td><Link to={ `/persons/${person.id}` }>{person.firstName} {person.lastName}</Link></td>
-                <td>{ friendlyAge(person.age) } </td>
-                <td>{ friendlyClass(person.socialClass) }</td>
-                <td>{ person.occupation != null && person.occupation.name }</td>
-                <td>{ person.relationshipToHead != null && person.relationshipToHead.name }</td>
-            </tr>
-        )
     }
 
     renderHouseName(house) {
@@ -100,7 +66,7 @@ class House extends Component {
         let owner = place.currentOwner
         return (
             <p>
-                Owned by <Link to={ `/persons/${owner.id}` }>{owner.firstName}{owner.lastName != null && ` ${owner.lastName}`}</Link>
+                Owned by <PersonLink person={owner} />
                 {owner.occupation != null && `, ${owner.occupation.name}`}
                 {place.entailed && ' (entailed)'}
             </p>
@@ -144,39 +110,26 @@ class House extends Component {
 
                     { this.renderPlaceOwner(this.props.house) }
 
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Class</th>
-                                <th>Occupation</th>
-                                <th>Relationship to head</th>
-                            </tr>
-                        </thead>
-                        {
-                            this.props.house.households != null && this.props.house.households.map(hh => this.renderHouseholdRows(hh))
-                        }
-                    </Table>
+                    <HouseholdListTable households={this.props.house.households} />
                 </div>
 
-            <Navbar color="light" light expand="md">
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                        <LinkContainer to={`/places/houses/${this.props.house.id}/owners`}>
-                            <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
-                        </LinkContainer>
-                        <LinkContainer to={`/places/houses/${this.props.house.id}/residents`}>
-                            <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
-                        </LinkContainer>
-                    </Nav>
-                </Collapse>
-            </Navbar>
+                <Navbar color="light" light expand="md">
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <LinkContainer to={`/places/houses/${this.props.house.id}/owners`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Owners</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to={`/places/houses/${this.props.house.id}/residents`}>
+                                <NavItem className="btn btn-light btn-sm" role="button">Residents</NavItem>
+                            </LinkContainer>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
 
-            <Switch>
-                <Route path="/places/houses/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.house.id} place={this.props.house} /> } />
-                <Route path="/places/houses/:id/residents" render={ (props) => <PlaceResidentsTimeline {...props} id={this.props.house.id} place={this.props.house} /> } />
-            </Switch>
+                <Switch>
+                    <Route path="/places/houses/:id/owners" render={ (props) => <PlaceOwners {...props} id={this.props.house.id} place={this.props.house} /> } />
+                    <Route path="/places/houses/:id/residents" render={ (props) => <PlaceResidentsTimeline {...props} id={this.props.house.id} place={this.props.house} /> } />
+                </Switch>
 
             </div>
         )

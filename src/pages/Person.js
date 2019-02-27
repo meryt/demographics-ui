@@ -15,6 +15,7 @@ import moment from 'moment'
 import PersonFamilies from '../components/PersonFamilies'
 import PersonAncestors from '../components/PersonAncestors'
 import PersonDescendants from '../components/PersonDescendants'
+import PersonDescendantsTree from '../components/PersonDescendantsTree'
 import PersonRelatives from '../components/PersonRelatives'
 import PersonHousehold from '../components/PersonHousehold'
 import PersonCapital from '../components/PersonCapital'
@@ -97,7 +98,7 @@ class Person extends Component {
                         <th>Born</th>
                         <td>{moment(this.props.person.birthDate).format('MMMM Do, YYYY')}</td>
                         <th>Died</th>
-                        <td>{moment(this.props.person.deathDate).format('MMMM Do, YYYY')}</td>
+                        <td>{moment(this.props.person.deathDate).format('MMMM Do, YYYY')}{ this.props.person.causeOfDeath != null && `, of ${this.props.person.causeOfDeath}` }</td>
                         <th>Aged</th>
                         <td>{this.props.person.ageAtDeath}</td>
                     </tr>
@@ -133,6 +134,12 @@ class Person extends Component {
                         <th>Morality</th>
                         <td>{this.formatDecimal(this.props.person.morality)}</td>
                     </tr>
+                    { this.props.person.pregnancy &&
+                        <tr>
+                            <th>Pregnancy</th>
+                            <td colSpan="5">{this.props.person.pregnancy}</td>
+                        </tr>
+                    }
                     <tr>
                         <th>Class</th>
                         <td colSpan="5">{this.props.person.socialClass}</td>
@@ -176,6 +183,10 @@ class Person extends Component {
                             <NavItem className="btn btn-light btn-sm" role="button">Descendants</NavItem>
                         </LinkContainer>
 
+                        <LinkContainer to={`/persons/${this.props.person.id}/living-descendants`}>
+                            <NavItem className="btn btn-light btn-sm" role="button">Living Descendants</NavItem>
+                        </LinkContainer>
+
                         {(this.props.person.family != null || this.props.person.families != null) &&
                             <LinkContainer to={`/persons/${this.props.person.id}/relatives`}>
                                 <NavItem className="btn btn-light btn-sm" role="button">Relatives</NavItem>
@@ -210,7 +221,8 @@ class Person extends Component {
         <Switch>
             <Route path="/persons/:id/families" render={ (props) => <PersonFamilies {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/ancestors" render={ (props) => <PersonAncestors {...props} id={this.props.match.params.id} person={this.props.person} /> } />
-            <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendants {...props} id={this.props.match.params.id} /> } />
+            <Route path="/persons/:id/descendants" render={ (props) => <PersonDescendantsTree {...props} id={this.props.match.params.id} /> } />
+            <Route path="/persons/:id/living-descendants" render={ (props) => <PersonDescendants {...props} id={this.props.match.params.id} /> } />
             <Route path="/persons/:id/household" render={ (props) => <PersonHousehold {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/capital" render={ (props) => <PersonCapital {...props} id={this.props.match.params.id} person={this.props.person} /> } />
             <Route path="/persons/:id/residences" render={ (props) => <PersonResidences {...props} id={this.props.match.params.id} person={this.props.person} /> } />

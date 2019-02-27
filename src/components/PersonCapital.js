@@ -36,8 +36,9 @@ class PersonCapital extends Component {
                             <th>Notes</th>
                         </tr>
                     </thead>
-
-                    { this.props.person.capitalHistory.map(capitalHistoryRow => this.renderCapitalRow(capitalHistoryRow)) }
+                    <tbody>
+                        { this.props.person.capitalHistory.map(capitalHistoryRow => this.renderCapitalRow(capitalHistoryRow)) }
+                    </tbody>
                 </Table>
             </div>
         )

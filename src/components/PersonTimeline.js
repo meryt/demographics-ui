@@ -3,10 +3,10 @@ import Timeline from 'react-visjs-timeline'
 
 import '../css/timeline.scss'
 
-import { getYear, subtractOneDay } from '../utils/dates'
+import { friendlyDate, getYear, subtractOneDay } from '../utils/dates'
 import { formatPlaceName } from '../utils/places'
 import { titleCase } from '../utils/strings'
-import { createTimelineEntry, formatNameAndDatesForPerson } from '../utils/timelines'
+import { createTimelineEntry, formatNameAndDatesForPerson, formatNameAndFriendlyDatesForPerson } from '../utils/timelines'
 
 class PersonTimeline extends Component {
 
@@ -31,6 +31,7 @@ class PersonTimeline extends Component {
         const LIFE_ID = `person_${person.id}-lifespan`
         const TITLES_ID = `person_${person.id}-titles`
         const RESIDENCES_ID = `person_${person.id}-residences`
+        const OCCUPATIONS_ID = `person_${person.id}-occupations`
 
         let order = 0
 
@@ -97,6 +98,14 @@ class PersonTimeline extends Component {
           }
         }
 
+        if (person.occupations != null && person.occupations.length > 0) {
+            groups.push({id: OCCUPATIONS_ID, content: 'Occupations', order: order++})
+
+            for (var n = 0; n < person.occupations.length; n++) {
+                items.unshift(this.createOccupationSpan(person.occupations[n], OCCUPATIONS_ID))
+            }
+        }
+
         if (person.timeline != null && person.timeline.length > 0) {
             for (var m = 0; m < person.timeline.length; m++) {
                 var entry = person.timeline[m]
@@ -122,10 +131,10 @@ class PersonTimeline extends Component {
           start: person.birthDate,
           end: person.deathDate,
           content: formatNameAndDatesForPerson(person),
+          title: formatNameAndFriendlyDatesForPerson(person),
           group: groupId,
           className: `timeline-person-${gen}`
       }
-      obj.title = obj.content
       return obj
     }
 
@@ -146,10 +155,22 @@ class PersonTimeline extends Component {
           start: residence.fromDate,
           end: subtractOneDay(residence.toDate),
           content: `<a href="/places/houses/${residence.location.id}">${formatPlaceName(residence.location)}</a>, ${residence.location.location} (${getYear(residence.fromDate)} - ${getYear(residence.toDate)})`,
+          title: `<a href="/places/houses/${residence.location.id}">${formatPlaceName(residence.location)}</a>, ${residence.location.location} (${friendlyDate(residence.fromDate)} - ${friendlyDate(residence.toDate)})`,
           group: groupId,
           className: 'timeline-residence'
       }
-      obj.title = obj.content
+      return obj
+    }
+
+    createOccupationSpan(occupation, groupId) {
+      var obj = {
+          start: occupation.fromDate,
+          end: subtractOneDay(occupation.toDate),
+          content: `${occupation.name} (${getYear(occupation.fromDate)} - ${getYear(occupation.toDate)})`,
+          title: `${occupation.name} (${friendlyDate(occupation.fromDate)} - ${friendlyDate(occupation.toDate)})`,
+          group: groupId,
+          className: 'timeline-occupation'
+      }
       return obj
     }
 

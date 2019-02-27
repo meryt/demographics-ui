@@ -5,8 +5,10 @@ import { house, houseHasErrored, houseIsLoading } from './houses'
 import { parish, parishHasErrored, parishIsLoading } from './parishes'
 import { characters, charactersHasErrored, charactersIsLoading,
          descendants, descendantsHasErrored, descendantsIsLoading,
+         livingDescendants, livingDescendantsHasErrored, livingDescendantsIsLoading,
          relatives, relativesHasErrored, relativesIsLoading,
-         person, personHasErrored, personIsLoading } from './persons'
+         person, personHasErrored, personIsLoading,
+         persons, personsHasErrored, personsIsLoading } from './persons'
 import { places, placesHasErrored, placesIsLoading,
          placeResidents, placeResidentsHasErrored, placeResidentsIsLoading,
          placeResidentsTimeline, placeResidentsTimelineHasErrored, placeResidentsTimelineIsLoading } from './places'
@@ -29,6 +31,9 @@ export default (history) => combineReducers({
     descendants,
     descendantsHasErrored,
     descendantsIsLoading,
+    livingDescendants,
+    livingDescendantsHasErrored,
+    livingDescendantsIsLoading,
     estate,
     estateHasErrored,
     estateIsLoading,
@@ -41,6 +46,9 @@ export default (history) => combineReducers({
     person,
     personHasErrored,
     personIsLoading,
+    persons,
+    personsHasErrored,
+    personsIsLoading,
     places,
     placesHasErrored,
     placesIsLoading,

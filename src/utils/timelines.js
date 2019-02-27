@@ -13,6 +13,16 @@ export function formatNameAndDatesForPerson(person, fromDate, toDate) {
   return `<a href="/persons/${person.id}/timeline">${person.firstName} ${(person.lastName == null ? '' : person.lastName)} (${getYear(fromDate)} - ${getYear(toDate)})</a>`
 }
 
+export function formatNameAndFriendlyDatesForPerson(person, fromDate, toDate) {
+    if (!fromDate) {
+        fromDate = person.birthDate
+    }
+    if (!toDate) {
+        toDate = person.deathDate
+    }
+  return `<a href="/persons/${person.id}/timeline">${person.firstName} ${(person.lastName == null ? '' : person.lastName)} (${friendlyDate(fromDate)} - ${friendlyDate(toDate)})</a>`    
+}
+
 export function getDefaultOptions(currentDate) {
     var start = '1800-01-01'
     var end = '1805-01-01'

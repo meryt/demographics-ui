@@ -41,8 +41,9 @@ class PersonResidences extends Component {
                             <th>To</th>
                         </tr>
                     </thead>
-
-                    { this.props.person.residences.map(residenceRow => this.renderResidenceRow(residenceRow)) }
+                    <tbody>
+                        { this.props.person.residences.map(residenceRow => this.renderResidenceRow(residenceRow)) }
+                    </tbody>
                 </Table>
             </div>
         )

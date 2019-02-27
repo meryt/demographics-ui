@@ -41,16 +41,12 @@ class App extends Component {
     }
 
   render() {
-      if (this.props.hasErrored) {
-        return <p>Sorry, there was an error loading the current date</p>
-      }
-
       if (this.props.isLoading) {
         return <p>Loading...</p>
       }
 
       if (this.props.currentDate == null) {
-          return <p>no current date found</p>
+          this.props.currentDate = '1280-01-01'
       }
 
     return (

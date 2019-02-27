@@ -65,7 +65,7 @@ class PlaceChildPlaces extends Component {
         }
 
         return (
-            <Table>
+            <Table hover={this.props.updateStateOnClick}>
                 <thead>
                     <tr>
                         <th>Name</th>

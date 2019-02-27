@@ -39,8 +39,9 @@ class PersonProperty extends Component {
                             <th>Location</th>
                         </tr>
                     </thead>
-
-                    { this.props.person.ownedProperties.map(property => this.renderPropertyRow(property)) }
+                    <tbody>
+                        { this.props.person.ownedProperties.map(property => this.renderPropertyRow(property)) }
+                    </tbody>
                 </Table>
             </div>
         )

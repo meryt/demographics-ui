@@ -2,9 +2,15 @@ import {
   PERSON_HAS_ERRORED,
   PERSON_IS_LOADING,
   PERSON_FETCH_DATA_SUCCESS,
+  PERSONS_HAS_ERRORED,
+  PERSONS_IS_LOADING,
+  PERSONS_FETCH_DATA_SUCCESS,
   DESCENDANTS_HAS_ERRORED,
   DESCENDANTS_IS_LOADING,
   DESCENDANTS_FETCH_DATA_SUCCESS,
+  LIVING_DESCENDANTS_HAS_ERRORED,
+  LIVING_DESCENDANTS_IS_LOADING,
+  LIVING_DESCENDANTS_FETCH_DATA_SUCCESS,
   RELATIVES_HAS_ERRORED,
   RELATIVES_IS_LOADING,
   RELATIVES_FETCH_DATA_SUCCESS,
@@ -142,47 +148,135 @@ export function relativesFetchData(url) {
   }
 }
 
-  export function charactersHasErrored(bool) {
+export function charactersHasErrored(bool) {
     return {
-      type: CHARACTERS_HAS_ERRORED,
-      hasErrored: bool
+        type: CHARACTERS_HAS_ERRORED,
+        hasErrored: bool
     }
-  }
+}
 
-  export function charactersIsLoading(bool) {
+export function charactersIsLoading(bool) {
     return {
-      type: CHARACTERS_IS_LOADING,
-      isLoading: bool
+        type: CHARACTERS_IS_LOADING,
+        isLoading: bool
     }
-  }
+}
 
-  export function charactersFetchDataSuccess(characters) {
-      console.log('Fetch success');
+export function charactersFetchDataSuccess(characters) {
+    console.log('Fetch success');
 
     return {
-      type: CHARACTERS_FETCH_DATA_SUCCESS,
-      characters
+        type: CHARACTERS_FETCH_DATA_SUCCESS,
+        characters
     }
-  }
+}
 
-  export function charactersFetchData(url) {
+export function charactersFetchData(url) {
     return (dispatch) => {
-      dispatch(charactersIsLoading(true))
+        dispatch(charactersIsLoading(true))
 
-      console.log("Fetching " + url)
+        console.log("Fetching " + url)
 
-      fetch(url)
+        fetch(url)
         .then((response) => {
-          if (!response.ok) {
-            throw Error(response.statusText)
-          }
+            if (!response.ok) {
+                throw Error(response.statusText)
+            }
 
-          dispatch(charactersIsLoading(false))
+            dispatch(charactersIsLoading(false))
 
-          return response
+            return response
         })
         .then((response) => response.json())
         .then((characters) => dispatch(charactersFetchDataSuccess(characters)))
         .catch(() => dispatch(charactersHasErrored(true)))
     }
+}
+
+export function personsHasErrored(bool) {
+    return {
+        type: PERSONS_HAS_ERRORED,
+        hasErrored: bool
+    }
+}
+
+export function personsIsLoading(bool) {
+    return {
+        type: PERSONS_IS_LOADING,
+        isLoading: bool
+    }
+}
+
+export function personsFetchDataSuccess(persons) {
+    console.log('Fetch success');
+
+    return {
+        type: PERSONS_FETCH_DATA_SUCCESS,
+        persons
+    }
+}
+
+export function personsFetchData(url) {
+    return (dispatch) => {
+        dispatch(personsIsLoading(true))
+
+        console.log("Fetching " + url)
+
+        fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText)
+            }
+
+            dispatch(personsIsLoading(false))
+
+            return response
+        })
+        .then((response) => response.json())
+        .then((persons) => dispatch(personsFetchDataSuccess(persons)))
+        .catch(() => dispatch(personsHasErrored(true)))
+    }
+}
+
+export function livingDescendantsHasErrored(bool) {
+  return {
+    type: LIVING_DESCENDANTS_HAS_ERRORED,
+    hasErrored: bool
+  }
+}
+
+export function livingDescendantsIsLoading(bool) {
+  return {
+    type: LIVING_DESCENDANTS_IS_LOADING,
+    isLoading: bool
+  }
+}
+
+export function livingDescendantsFetchDataSuccess(livingDescendants) {
+  return {
+    type: LIVING_DESCENDANTS_FETCH_DATA_SUCCESS,
+    livingDescendants
+  }
+}
+
+export function livingDescendantsFetchData(url) {
+  return (dispatch) => {
+    dispatch(livingDescendantsIsLoading(true))
+
+    console.log("Fetching " + url)
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+
+        dispatch(livingDescendantsIsLoading(false))
+
+        return response
+      })
+      .then((response) => response.json())
+      .then((livingDescendants) => dispatch(livingDescendantsFetchDataSuccess(livingDescendants)))
+      .catch(() => dispatch(livingDescendantsHasErrored(true)))
+  }
 }

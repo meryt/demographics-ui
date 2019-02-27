@@ -26,5 +26,5 @@ export function renderDefaultTitle(optionalString) {
 }
 
 export function pageTitleFromPerson(person) {
-    return renderDefaultTitle(`${ person.firstName } ${ person.lastName }`)
+    return renderDefaultTitle(`${ person.firstName } ${ person.lastName == null ? '' : person.lastName }`)
 }

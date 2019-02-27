@@ -5,9 +5,12 @@ import {
     Table
 } from 'reactstrap'
 import { titlesFetchData } from '../actions/titles'
+
+import PersonLink from '../components/PersonLink'
+
 import { renderDefaultTitle } from '../utils/pages'
-import { renderPersonLink, renderPersonTitles } from '../utils/persons'
-import { friendlyDate } from '../utils/dates'
+import { renderPersonTitles } from '../utils/persons'
+import { friendlyDate, getYear } from '../utils/dates'
 
 class TitleList extends Component {
   componentDidMount() {
@@ -20,7 +23,11 @@ class TitleList extends Component {
         }
 
         if (title.extinct) {
-            return <i>Extinct</i>
+            if (title.extinctionDate != null) {
+                return <i>Extinct since {getYear(title.extinctionDate)}</i>
+            } else {
+                return <i>Extinct</i>
+            }
         }
 
         if (title.currentHolder == null) {
@@ -31,7 +38,7 @@ class TitleList extends Component {
         }
 
         return (
-            <div>{ renderPersonLink(title.currentHolder) }, { renderPersonTitles(title.currentHolder) }</div>
+            <div><PersonLink person={title.currentHolder} />, { renderPersonTitles(title.currentHolder) }</div>
         )
   }
 
@@ -77,6 +84,7 @@ class TitleList extends Component {
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Created</th>
                         <th>Current Holder</th>
                         <th>From Date</th>
                         <th>To Date</th>
@@ -86,6 +94,7 @@ class TitleList extends Component {
                 {this.props.titles.map((title) => (
                     <tr key={title.id}>
                         <td><Link to={`/persons/titles/${title.id}`}>{title.name}</Link></td>
+                        <td>{ getYear(title.creationDate) }</td>
                         <td>{ this.renderCurrentHolder(title) }</td>
                         <td>{ this.renderCurrentHolderDate(title, 'fromDate') }</td>
                         <td>{ this.renderCurrentHolderDate(title, 'toDate') }</td>

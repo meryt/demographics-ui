@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import {
     Table
 } from 'reactstrap'
 import { titleFetchData } from '../actions/title'
+
+import PersonLink from '../components/PersonLink'
+
 import { titleCase, enumToText } from '../utils/strings'
 import { friendlyDate } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
-import { renderPersonLink } from '../utils/persons'
 
 class Title extends Component {
 
@@ -69,7 +70,7 @@ class Title extends Component {
                 <tbody>
                     {title.titleHolders.map((row) => (
                       <tr key={`person-${row.titleHolder.id}`}>
-                        <td><Link to={`/persons/${row.titleHolder.id}`}>{row.titleHolder.firstName} {row.titleHolder.lastName}</Link></td>
+                        <td><PersonLink person={row.titleHolder} /></td>
                         <td>{friendlyDate(row.titleHolder.birthDate)}</td>
                         <td>{friendlyDate(row.fromDate)}</td>
                         <td>{friendlyDate(row.titleHolder.deathDate)}</td>
@@ -95,7 +96,7 @@ class Title extends Component {
                     <tbody>
                     {title.heirs.map((heir) => (
                       <tr key={`heir-${heir.id}`}>
-                        <td>{ renderPersonLink(heir) }</td>
+                        <td><PersonLink person={heir} /></td>
                         <td>{friendlyDate(heir.birthDate)}</td>
                         <td>{friendlyDate(heir.deathDate)}</td>
                         <td>{ heir.relationship != null ? heir.relationship.name : null }</td>

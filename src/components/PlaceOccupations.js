@@ -6,8 +6,9 @@ import {
 
 import { townSelectDwelling } from '../actions/towns'
 
+import PersonLink from '../components/PersonLink'
+
 import { friendlyAge } from '../utils/dates'
-import { renderPersonLink } from '../utils/persons'
 import { renderPlaceLink } from '../utils/places'
 
 class PlaceOccupations extends Component {
@@ -22,7 +23,7 @@ class PlaceOccupations extends Component {
         return (
             <tr key={ `occ-person-${person.id}` } id={ `row-person-${person.id}-dwelling-${person.dwelling.id}`}
                 className={ (person.dwelling.id === Number(this.props.selectedPlaceId)) ? 'table-active' : '' } onClick={ this.clickRow }>
-                <td>{ renderPersonLink(person) }</td>
+                <td><PersonLink person={person} /></td>
                 <td>{ friendlyAge(person.age) }</td>
                 <td>{ renderPlaceLink(person.dwelling) }</td>
             </tr>

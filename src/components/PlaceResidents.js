@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { placeResidentsFetchData } from '../actions/places'
-import HouseholdList from './HouseholdList'
+import HouseholdListTable from './HouseholdListTable'
 
 class PlaceResidents extends Component {
 
@@ -24,7 +24,7 @@ class PlaceResidents extends Component {
         }
 
         return (
-            <HouseholdList households={this.props.residents} />
+            <HouseholdListTable households={this.props.residents} />
         )
     }
 }

@@ -2,17 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Table } from 'reactstrap'
 
+import PersonLink from '../components/PersonLink'
+
 import { friendlyAge, getYear } from './dates'
-
-export function renderPersonLink(person, extraPath) {
-    if (person == null || person.firstName == null) {
-        return null
-    }
-
-    let path = extraPath == null ? '' : extraPath
-
-    return <Link to={ `/persons/${person.id}${path}` }>{person.firstName}{person.lastName != null && ` ${person.lastName}`}</Link>
-}
 
 export function renderPersonTitles(person) {
     if (person == null || person.titles == null) {
@@ -34,7 +26,15 @@ export function renderPersonTitles(person) {
 }
 
 export function friendlyClass(socialClassString) {
-    return socialClassString.split(' ')[0].split(',')[0]
+    let firstWord = socialClassString.split(' ')[0].split(',')[0]
+    switch (firstWord) {
+        case 'Itinerant':
+            return 'Pauper'
+        case 'Freehold':
+            return 'Farmer, craftsman'
+        default:
+            return firstWord
+    }
 }
 
 export function renderTableOfPersons(persons) {
@@ -67,7 +67,7 @@ function _renderPersonRow(person) {
 
     return (
         <tr key={`person-${person.id}`}>
-            <td>{ renderPersonLink(person)}</td>
+            <td><PersonLink person={person} /></td>
             <td>{ friendlyAge(person.age) }</td>
             <td>{ getYear(person.birthDate) }</td>
             <td>{ getYear(person.deathDate) }</td>

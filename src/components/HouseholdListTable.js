@@ -5,7 +5,7 @@ import {
 
 import HouseholdListRow from './HouseholdListRow'
 
-class HouseholdList extends Component {
+class HouseholdListTable extends Component {
 
     render() {
         if (this.props.hasErrored) {
@@ -18,7 +18,7 @@ class HouseholdList extends Component {
 
         // Create a new array that we can sort
         let households = this.props.households.slice()
-        households.sort(this.compareHouseholds)
+        //households.sort(this.compareHouseholds)
 
         return (
             <Table>
@@ -49,4 +49,4 @@ class HouseholdList extends Component {
     }
 }
 
-export default HouseholdList;
+export default HouseholdListTable;

@@ -12,7 +12,9 @@ import Characters from '../pages/Characters'
 import TitleList from '../pages/TitleList'
 import Title from '../pages/Title'
 
-import '../css/Persons.css'
+import PersonSearchForm from '../components/PersonSearchForm'
+
+import '../css/Persons.scss'
 import { renderDefaultTitle } from '../utils/pages'
 
 export default class Persons extends Component {
@@ -47,11 +49,15 @@ export default class Persons extends Component {
                                 <LinkContainer to="/persons/titles">
                                     <NavItem className="btn btn-sm" role="button">Titles</NavItem>
                                 </LinkContainer>
+                                <LinkContainer to="/persons/search">
+                                    <NavItem className="btn btn-sm" role="button">Search</NavItem>
+                                </LinkContainer>
                             </Nav>
                         </Collapse>
                     </Navbar>
 
                     <Switch>
+                        <Route exact path="/persons/search" component={PersonSearchForm} />
                         <Route exact path="/persons/characters" render={ (props) => <Characters {...props} /> } />
                         <Route exact path="/persons/titles" render={ (props) => <TitleList {...props} /> } />
                         <Route path={`/persons/titles/:titleId`} component={Title} />

@@ -11,12 +11,14 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { parishFetchData } from '../actions/parish'
+import PersonLink from '../components/PersonLink'
 import PlaceChildPlaces from '../components/PlaceChildPlaces'
 import PlaceOccupations from '../components/PlaceOccupations'
 import PlaceResidents from '../components/PlaceResidents'
+
 import { friendlyAge } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
-import { friendlyClass, renderPersonLink } from '../utils/persons'
+import { friendlyClass } from '../utils/persons'
 import { renderPlaceLink } from '../utils/places'
 import { formatNumber } from '../utils/strings'
 
@@ -60,7 +62,7 @@ class Parish extends Component {
                     {
                         this.props.parish.leadingHouseholds.map(hh => (
                             <tr key={`leading-household-${hh.id}`}>
-                                <td>{ renderPersonLink(hh.head) }</td>
+                                <td><PersonLink person={hh.head} /></td>
                                 <td>{ friendlyAge(hh.head.age) }</td>
                                 <td>{ friendlyClass(hh.head.socialClass) }</td>
                                 <td>{ hh.location.name != null ? (renderPlaceLink(hh.location)) : hh.location.location }</td>
@@ -70,7 +72,6 @@ class Parish extends Component {
                 </tbody>
             </Table>
         )
-
     }
 
     render() {
@@ -94,6 +95,8 @@ class Parish extends Component {
 
                     <h3>Leading Households</h3>
                     { this.renderLeadingHouseholds() }
+
+                    { this.renderBeautifulPeople() }
                 </div>
 
                 <Navbar color="dark" dark expand="md">
@@ -131,6 +134,37 @@ class Parish extends Component {
                 </Switch>
 
             </div>
+        )
+    }
+
+    renderBeautifulPeople() {
+        if (this.props.isLoading || this.props.parish.beautifulResidents == null) {
+            return null;
+        }
+
+        return (
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Class</th>
+                        <th>Comeliness</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        this.props.parish.beautifulResidents.map(person => (
+                            <tr key={`beautiful-person-${person.id}`}>
+                                <td><PersonLink person={person} /></td>
+                                <td>{ friendlyAge(person.age) }</td>
+                                <td>{ friendlyClass(person.socialClass) }</td>
+                                <td>{ person.comeliness.toFixed(2) }</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </Table>
         )
     }
 }

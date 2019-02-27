@@ -8,7 +8,8 @@ import {
 
 import { relativesFetchData } from '../actions/person'
 
-import { renderPersonLink } from '../utils/persons'
+import PersonLink from '../components/PersonLink'
+
 import { friendlyDate } from '../utils/dates'
 
 class PersonRelatives extends Component {
@@ -87,7 +88,7 @@ class PersonRelatives extends Component {
                     <tbody>
                         { this.props.relatives.map(person => (
                             <tr key={ `relative-${person.id}` }>
-                                <td>{ renderPersonLink(person) }</td>
+                                <td><PersonLink person={ person } /></td>
                                 <td>{ friendlyDate(person.birthDate) }</td>
                                 <td>{ friendlyDate(person.deathDate) }</td>
                                 <td>{ person.relationship.name }</td>

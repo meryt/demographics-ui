@@ -7,11 +7,13 @@ import {
 
 import { placesFetchData } from '../actions/places'
 
+import PersonLink from '../components/PersonLink'
+
 import { friendlyDate } from '../utils/dates'
 import { renderDefaultTitle } from '../utils/pages'
 import { renderPlaceLink } from '../utils/places'
 import { formatNumber, titleCase } from '../utils/strings'
-import { renderPersonLink, renderPersonTitles } from '../utils/persons'
+import { renderPersonTitles } from '../utils/persons'
 
 class Estates extends Component {
 
@@ -36,7 +38,7 @@ class Estates extends Component {
           <tbody key={ `estate-row-${estate.id}` }>
             <tr>
                 <th colSpan="2"><Link to={`/places/${this.props.type}/${estate.id}`}>{estate.name}</Link>, { estate.location },
-                 { estate.acres != null && <span>{ formatNumber(Math.round(estate.acres)) } acres,</span> }
+                 { estate.acres != null && <span> { formatNumber(Math.round(estate.acres)) } acres,</span> }
                  value { formatNumber(estate.value) }</th>
             </tr>
             <tr>
@@ -64,7 +66,7 @@ class Estates extends Component {
       let owner = estate.currentOwner
       return (
             <div>
-                { renderPersonLink(owner) }{owner.occupation != null && `, ${owner.occupation.name}`}, died { friendlyDate(owner.deathDate) }
+                <PersonLink person={ owner } />{owner.occupation != null && `, ${owner.occupation.name}`}, died { friendlyDate(owner.deathDate) }
             </div>
       )
   }
@@ -93,10 +95,10 @@ class Estates extends Component {
       return (
           <tr key={ `household-row-${household.id}` }>
             { index === 0 && <th rowSpan={ numHouseholds }>Leading Households</th> }
-            <td>Household of { renderPersonLink(household.head, '/household') }
+            <td>Household of <PersonLink person={ household.head } extraPath={'/household'} />
             { titles != null && ', '}
             { titles != null && titles },
-                resident of { renderPlaceLink(household.location) }, value { household.location.value }</td>
+                resident of { renderPlaceLink(household.location) }, value { formatNumber(household.location.value) }</td>
           </tr>
       )
   }
