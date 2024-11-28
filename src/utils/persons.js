@@ -6,7 +6,7 @@ import PersonLink from '../components/PersonLink'
 
 import { friendlyAge, getYear } from './dates'
 
-export function renderPersonTitles(person) {
+export function renderPersonTitles(person, showInheritanceStyle) {
     if (person == null || person.titles == null) {
         return null
     }
@@ -17,12 +17,26 @@ export function renderPersonTitles(person) {
         <span>
           {person.titles
               .map(t => shouldDereferenceTitle ? t.title : t )
-              .map(t => <Link key={ `title-${t.id}` } to={`/persons/titles/${t.id}`}>{t.name}</Link>)
+              .map(t => <Link key={ `title-${t.id}` } to={`/persons/titles/${t.id}`}>{t.name}
+                  { showInheritanceStyle && _renderInheritanceStyle(t.inheritanceStyle) }</Link>)
               .reduce((accu, elem) => {
                   return accu === null ? [elem] : [...accu, ', ', elem]
               }, null)}
         </span>
     )
+}
+
+function _renderInheritanceStyle(style) {
+    switch (style) {
+        case 'HEIRS_MALE_OF_THE_BODY':
+            return '  (MB)'
+        case 'HEIRS_MALE_GENERAL':
+            return ' (M)'
+        case 'HEIRS_OF_THE_BODY':
+            return ' (B)'
+        default:
+            return ''
+    }
 }
 
 export function friendlyClass(socialClassString) {

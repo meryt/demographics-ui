@@ -16,9 +16,9 @@ class TimelineComponent extends Component {
 
     fetchTimeline(type) {
         if (type === 'storylines') {
-            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT&includeStorylines=true`)
+            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT,LOTHERE&includeStorylines=true`)
         } else {
-            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT`)
+            this.props.fetchData(`http://localhost:8095/api/timeline?category=RULER_ENGLAND,RULER_FRANCE,WAR,PARLIAMENT,LOTHERE`)
         }
     }
 
@@ -42,7 +42,8 @@ class TimelineComponent extends Component {
             return <p>no entries found</p>
         }
 
-        const options = getDefaultOptions(this.props.currentDate)
+        //const options = getDefaultOptions(this.props.currentDate)
+        const options = getDefaultOptions('1781-01-01')
 
         const items = []
         const groups = []

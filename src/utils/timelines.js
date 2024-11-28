@@ -20,7 +20,7 @@ export function formatNameAndFriendlyDatesForPerson(person, fromDate, toDate) {
     if (!toDate) {
         toDate = person.deathDate
     }
-  return `<a href="/persons/${person.id}/timeline">${person.firstName} ${(person.lastName == null ? '' : person.lastName)} (${friendlyDate(fromDate)} - ${friendlyDate(toDate)})</a>`    
+  return `<a href="/persons/${person.id}/timeline">${person.firstName} ${(person.lastName == null ? '' : person.lastName)} (${friendlyDate(fromDate)} - ${friendlyDate(toDate)})</a>`
 }
 
 export function getDefaultOptions(currentDate) {
@@ -50,7 +50,7 @@ export function getDefaultOptions(currentDate) {
 
 export function createTimelineEntry(entry, groupId) {
     var obj = {
-        start: entry.fromDate,
+        start: _getDate(entry, 'fromDate'),
         content: entry.content,
         className: 'timeline-entry'
     }
@@ -61,12 +61,27 @@ export function createTimelineEntry(entry, groupId) {
 
     if (entry.toDate == null) {
         obj.type = 'point'
-        obj.title += ` (${friendlyDate(entry.fromDate)})`
+        obj.title += ` (${friendlyDate(_getDate(entry, 'fromDate'))})`
     } else {
-        obj.end = subtractOneDay(entry.toDate)
-        obj.title += ` (${friendlyDate(entry.fromDate)} - ${friendlyDate(entry.toDate)})`
+        obj.end = subtractOneDay(_getDate(entry, 'toDate'))
+        obj.title += ` (${friendlyDate(_getDate(entry, 'fromDate'))} - ${friendlyDate(_getDate(entry, 'toDate'))})`
     }
     return obj
+}
+
+function _getDate(entry, datePropertyName) {
+
+    const LOTHERE_YEARS_TO_ADD = 715;
+
+    if (entry == null || entry[datePropertyName] == null) {
+        return null
+    }
+    if (entry.category === 'LOTHERE') {
+        return moment(entry[datePropertyName]).add(LOTHERE_YEARS_TO_ADD, 'years').format('YYYY-MM-DD')
+    } else {
+        return entry[datePropertyName]
+    }
+
 }
 
 export function timelineCategoryToGroupName(category) {

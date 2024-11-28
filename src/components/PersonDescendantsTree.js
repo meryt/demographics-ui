@@ -95,7 +95,7 @@ class PersonDescendantsTree extends Component {
 
     renderTitles(person) {
         if (person.titles != null && person.titles.length > 0) {
-            return <span className="descendant-titles">, { renderPersonTitles(person) }</span>
+            return <span className="descendant-titles">, { renderPersonTitles(person, true) }</span>
         } else {
             return null
         }
